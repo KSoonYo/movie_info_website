@@ -2,7 +2,7 @@
   <div>
     <b-container class="p-4">
       <b-row>
-        <b-col @click="$router.push({name: 'MoviesListItem', params:{movieId: popularMovie.id}}).catch(()=>{})" v-for="popularMovie in popularMovies"
+        <b-col @click="getMovie(popularMovie.id)" v-for="popularMovie in popularMovies"
         :key="popularMovie.id">
           <b-img thumbnail :src="popularMovie.poster_path" alt="Poster"></b-img>
         </b-col>
@@ -41,6 +41,10 @@ export default {
     getPrev(){
       this.currentPage = this.currentPage - 1 
       this.$store.dispatch('setPopularMovies', this.currentPage)
+    },
+
+    getMovie(movieId){
+      this.$store.dispatch('getMovie', movieId)
     }
   },
 

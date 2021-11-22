@@ -24,14 +24,19 @@ export default {
   name: 'LoginModal',
   data(){
     return{
-      username: null,
-      password: null,
+      username: '',
+      password: '',
     }
   },
 
   methods:{
     toLogin(event){
       event.preventDefault()
+      if(!this.username.trim() || !this.password.trim()){
+        alert('빈 항목을 채워주세요.')
+        return
+      }
+
       const payload = {
         username : this.username,
         password : this.password

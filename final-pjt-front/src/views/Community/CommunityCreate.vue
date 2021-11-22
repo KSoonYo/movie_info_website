@@ -1,17 +1,17 @@
 <template>
   <form @submit="createArticle">
     <select name="category" id="category-options">
-      <option value="자유" :selected="categoryStatus === 'free'">자유</option>
-      <option value="추천" :selected="categoryStatus === 'recommend'">추천</option>
+      <option value="FREE" >자유</option>
+      <option value="RECOMMEND" :selected="categoryStatus==='recommend'">추천</option>
     </select>
 
     <div>
       <label for="title"> 제목 </label>
-      <input id="title" type="text">
+      <input id="title" v-model="title" type="text">
     </div>
     <div>
       <label for="content"> 내용 </label>
-      <textarea name="content" id="content" cols="100" rows="5"></textarea>
+      <textarea name="content" id="content" cols="100" rows="5" v-model="content"></textarea>
     </div>
 
     <div>
@@ -24,19 +24,28 @@
 </template>
 
 <script>
+
 export default {
   name: 'CommunityCreate',
   data(){
     return{
-      // TODO: 카테고리 상태에 따른 select 옵션 default 설정
-      categoryStatus : this.$route.params.category
-   
+      categoryStatus : this.$route.params.category,
+      title : '',
+      content: '',
+      category: '',
     }
   },
 
   methods: {
-    createArticle(){      
-      alert('생성되었습니다!')
+    createArticle(event){      
+      event.preventDefault()
+      const payload = {
+        category: event.target[0].options.selectedIndex === 0 ? 'FREE' : 'RECOMMEND',
+        title: this.title,
+        content: this.content
+      }
+      this.$store.dispatch('createArticle', payload)
+    
     }
   }
 }

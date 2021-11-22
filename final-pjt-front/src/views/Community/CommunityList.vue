@@ -28,6 +28,14 @@ export default {
   created(){
     // 게시판을 누르자마자 전체게시판 목록을 바로 볼 수 있도록 구성
     this.$router.push('/community/all-community').catch(()=>{})
+    this.$store.dispatch('getArticles')
+  },
+
+  // 새로고침 시 articles state 재요청
+  // 확실치 않음
+  updated(){
+    this.$store.dispatch('getArticles')
+
   }
 }
 </script>

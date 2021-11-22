@@ -1,7 +1,7 @@
 <template>
   <div>
     <create-article :category="category"></create-article>
-    <community-articles></community-articles>
+    <community-articles :items="items"></community-articles>
   </div>
 
 
@@ -19,8 +19,29 @@ export default {
   },
    data(){
     return{
-      category: 'free'
+      category: 'free',
+      items: []
     }
+  },
+
+  created(){
+      const articles = this.$store.state.articles
+      const itemsArray = []
+      articles.filter(elem=>{
+          return elem.category === 'FREE'
+      }).forEach(elem=>{
+        const newElem = {
+           id: elem.id,
+          '분류': '자유',
+          '제목': elem.title,
+          '작성자': elem.user,
+          '작성시간' : elem.created_at
+        }
+        itemsArray.push(newElem)
+      })
+ 
+    this.items = itemsArray
+
   }
 }
 </script>

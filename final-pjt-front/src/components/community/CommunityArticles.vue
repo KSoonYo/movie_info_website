@@ -53,41 +53,40 @@
 
 <script>
 
-
 export default {
   name: 'CommunityArticles',
-   data(){
+
+  data(){
     return{
       perPage: 4,
       currentPage: 1,
       fields: ['분류', '제목', '작성자', '작성시간'],
-      items: [
-        { id: 1, 분류: '자유', 제목: '안녕하세요', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
-        { id: 2, 분류: '추천', 제목: '이 영화를 추천합니다.', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
-        { id: 3, 분류: '자유', 제목: '만세', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
-        { id: 4, 분류: '자유', 제목: '만세', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
-        { id: 5, 분류: '자유', 제목: '만세', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
-        { id: 6, 분류: '자유', 제목: '만세', 작성자: 'ssoosoon', 작성시간:'2021-11-18'},
+      
+    }
+  },
 
-      ],
+  props:{
+    items:{
+      type: Array
     }
   },
 
   computed:{
     rows(){
       return this.items.length
-    }
+    },
   },
 
   methods:{
     rowClicked(item){
-      // console.log('clicked!')
-      this.$router.push({name: 'CommunityArticle', params:{ articleId : item.id}} ).catch(()=>{})
+      console.log('clicked!', item)
+      // TODO: articleid로 변경해서 query를 날려줘야 함!
+      this.$router.push({name: 'CommunityArticle', query:{ userId : item['작성자']}} ).catch(()=>{})
     },
 
-    linkGen(pageNum) {
-      return pageNum === 1 ? '?' : `?page=${pageNum}`
-    }
+    // linkGen(pageNum) {
+    //   return pageNum === 1 ? '?' : `?page=${pageNum}`
+    // }
   }
 
 }

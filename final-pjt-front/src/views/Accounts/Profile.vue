@@ -13,12 +13,14 @@
 import NavBar from '@/components/NavBar'
 import ProfileMenu from '@/components/accounts/ProfileMenu'
 
+
 export default {
   name:'Profile',
    components:{
     NavBar,
     ProfileMenu
   },
+  
 }
 </script>
 

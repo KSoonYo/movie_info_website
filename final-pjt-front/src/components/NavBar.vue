@@ -1,7 +1,6 @@
 <template>
      <b-navbar toggleable="lg" type="light" class="bg-success">
        <b-navbar-nav>
-        <b-img fluid src="https://placekitten.com/g/30/30" alt="Kitten"></b-img>
         <b-navbar-brand class="logo" @click="$router.push('/').catch(()=>{})">NavBar</b-navbar-brand>
        </b-navbar-nav>
 
@@ -98,22 +97,18 @@ export default {
     },
 
     showMyProfile(){
-      this.$router.push({name: 'ProFile'}).catch(()=>{})
+      this.$router.push({name: 'Profile'}).catch(()=>{})
     },
     
     logOut(){
-      this.$store.commit('DELETE_TOKEN')
+      // 코드 순서 중요!(token을 가장 먼저 지워야 함)
       localStorage.removeItem('accessToken')
-
+      this.$store.commit('DELETE_TOKEN')
+      this.$store.commit('DELETE_USER_INFO')
+      this.$router.push({name: 'Index'}).catch(()=>{})
     }
   },
-
-  created(){
-    console.log(this.$store.getters.loginStatus)
-    console.log(this.$store.state.accessToken)
-
-  }
-}
+} 
 </script>
 
 <style>

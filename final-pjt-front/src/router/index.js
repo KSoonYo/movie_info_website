@@ -14,6 +14,11 @@ import CommunityArticle from '@/views/Community/CommunityArticle'
 // accounts
 import SignUp from '@/views/Accounts/SignUp'
 import Profile from '@/views/Accounts/Profile'
+import likeMovies from '@/views/Accounts/likeMovies'
+import likeArticles from '@/views/Accounts/likeArticles'
+import myArticles from '@/views/Accounts/myArticles'
+import myComments from '@/views/Accounts/myComments'
+import myReviews from '@/views/Accounts/myReviews'
 
 // movies
 import MoviesList from '../views/Movies/MoviesList'
@@ -50,11 +55,13 @@ const routes = [
   },
 
   {
-    path:'/movies/detail/?movieID=:movieId',
+    path:'/movies/detail/',
     name: 'MoviesListItem',
     component: MoviesListItem
   },
 
+
+  // Community routing mapping
   {
     path: '/community',
     name: 'Community',
@@ -80,7 +87,7 @@ const routes = [
       },
       
       {
-        path: '/community/:articleId',
+        path: '/community/detail',
         name: 'CommunityArticle',
         component: CommunityArticle,
       },
@@ -100,6 +107,7 @@ const routes = [
     ]
   },
 
+  // user router mapping
   {
     path: '/signup',
     name: 'SignUp',
@@ -109,7 +117,35 @@ const routes = [
   {
     path: '/profile',
     name: 'Profile',
-    component: Profile
+    component: Profile,
+    children: [
+      {
+        path: '/profile/likeMovies',
+        name: 'likeMovies',
+        component: likeMovies
+      },
+      {
+        path: '/profile/likeArticles',
+        name: 'likeArticles',
+        component: likeArticles
+      },
+      {
+        path: '/profile/myArticles',
+        name: 'myArticles',
+        component: myArticles
+      },
+      {
+        path: '/profile/myComments',
+        name: 'myComments',
+        component: myComments
+      },
+      {
+        path: '/profile/myReviews',
+        name: 'myReviews',
+        component: myReviews
+      },
+      
+    ]
   },
 
 ]
@@ -125,6 +161,7 @@ router.beforeEach((to, from, next) => {
   const accessToken = localStorage.getItem('accessToken')
   if (to.name === 'Index' || to.name === 'Login' || to.name === 'Signup' ) {
     if (accessToken) {
+      console.log('이동되었습니다.')
       next({ name: 'MoviesList' })
     }
   } else if(to.name === 'CommunityCreate'){
