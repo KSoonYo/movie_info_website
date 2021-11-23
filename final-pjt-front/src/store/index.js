@@ -44,7 +44,6 @@ export default new Vuex.Store({
     articles : [],
     article: null,
     comments : [],
-
   },
 
   getters: {
@@ -52,9 +51,6 @@ export default new Vuex.Store({
       return !!state.accessToken
     },
 
-    likeUsers(state){
-      return state.movie ? state.movie.like_users : '' 
-    },
 
     isSuperUser(state){
       return JSON.parse(atob(state.accessToken.split('.')[1])).is_superuser
@@ -143,11 +139,9 @@ export default new Vuex.Store({
       state.likeMovies.push(myMovie)
     },
 
+    // 좋아요 취소
     DELETE_LIKE_MOVIE(state, myMovie){
-      const targetMovieIndex = state.likeMovies.find(elem=>{
-        return elem.id === myMovie.id
-      })
-      state.likeMovies.splice(state.likeMovies.indexOf(targetMovieIndex), 1)
+      state.likeMovies.splice(state.likeMovies.indexOf(myMovie.id), 1)
     },
 
 
@@ -188,6 +182,17 @@ export default new Vuex.Store({
     // 게시글 삭제
     DELETE_ARTICLE(state, deletedArticle){
       state.articles.splice(state.articles.indexOf(deletedArticle.id), 1)
+    },
+
+    // 게시글 좋아요 
+    SET_LIKE_ARTICLE(state, article){
+      state.likeArticles.push(article)
+    },
+
+
+    // 게시글 싫어요
+    DELETE_LIKE_ARTICLE(state, article){
+      state.likeArticles.splice(state.likeArticles.indexOf(article.id), 1)
     },
 
     // 댓글 셋팅
@@ -257,7 +262,7 @@ export default new Vuex.Store({
     getMovie({commit}, movieId){
       axios.get(`/movies/${movieId}/`)
       .then(res=>{
-        commit('GET_MOVIE',res.data)
+        commit('GET_MOVIE', res.data)
       })
     },
 
@@ -298,8 +303,8 @@ export default new Vuex.Store({
     },
 
     // 좋아요
-    pressLike({commit, state}, movie){
-      axios.post(`movies/${movie.id}/like/`, {}, {}, {
+    pressLike({commit, dispatch, state}, movie){
+      axios.post(`movies/${movie.id}/like/`, {}, {
         headers:{
           Authorization: `Bearer ${state.accessToken}`
         }
@@ -307,13 +312,16 @@ export default new Vuex.Store({
         commit('SET_LIKE_MOVIE', {
           id: movie.id,
           title: movie.title
-        })
+        })     
       })
+        .then(()=>{
+          dispatch('getRecommendMovies', movie.id)
+        })
     },
     
     // 싫어요
-    pressDislike({commit, state}, movie){
-      axios.post(`movies/${movie.id}/like/`, {}, {}, {
+    pressDislike({commit, dispatch, state}, movie){
+      axios.post(`movies/${movie.id}/like/`, {}, {
         headers:{
           Authorization: `Bearer ${state.accessToken}`
         }
@@ -322,6 +330,9 @@ export default new Vuex.Store({
           id: movie.id,
           title: movie.title
         })
+      })
+      .then(()=>{
+        dispatch('getRecommendMovies', movie.id)
       })
     },
 
@@ -338,9 +349,9 @@ export default new Vuex.Store({
     getArticle({commit}, articleId){
       axios.get(`/articles/${articleId}/`)
         .then(res=>{
+          console.log(res.data)
           commit('SET_ARTICLE', res.data)
           router.push({name: 'CommunityArticle', query:{ articleId : articleId}} ).catch(()=>{})
-
         })
     },
 
@@ -383,12 +394,36 @@ export default new Vuex.Store({
         })
     },
 
+    // 게시글 추천(좋아요)
+    likeArticle({commit, state}, article){
+      axios.post(`articles/${article.id}/like/`, {}, {
+        headers: {
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      })
+        .then(()=>{
+           commit('SET_LIKE_ARTICLE', article)
+        })
+    },
+
+    // 게시글 추천 취소 (좋아요 취소)
+    disLikeArticle({commit, state}, article){
+      axios.post(`articles/${article.id}/like/`, {}, {
+        headers: {
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      })
+        .then(()=>{
+           commit('DELETE_LIKE_ARTICLE', article)
+        })
+    },
+
+
 
     // 댓글 목록 조회
     getComments({commit}, articleId){
       axios.get(`/articles/${articleId}/comment/`)
         .then(res=>{
-          console.log('댓글 목록', res.data)
           commit('SET_COMMENTS', res.data)
         })
     },

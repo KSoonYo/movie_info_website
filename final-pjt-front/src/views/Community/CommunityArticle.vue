@@ -7,7 +7,9 @@
     <p>작성시간: {{ article.created_at }}  </p>
     <p>수정시간: {{ article.updated_at }}  </p>
     <p>작성자 아이디: {{ article.user }}  </p>
-    <button>추천: </button>
+    <button @click="likeArticle" v-if="isLogin && !likeStatus ">추천</button>
+    <button @click="disLikeArticle" v-else-if="isLogin && likeStatus">추천 취소</button> 
+    <span> {{ recommendUsers }} 명이 이 글을 추천합니다. </span>
     <br>
     <button 
     @click="updateArticle" 
@@ -39,7 +41,8 @@ export default {
   name: 'CommunityArticle',
   data(){
     return({
-      commentContent: ''
+      commentContent: '',
+      recommendUsers : this.$store.state.article.recommend_users.length
     })
   },
 
@@ -68,6 +71,16 @@ export default {
         commentId: comment.id
       }
       this.$store.dispatch('deleteComment', payload)
+    },
+
+    likeArticle(){
+      this.$store.dispatch('likeArticle', this.article)
+      this.recommendUsers += 1
+    },
+
+    disLikeArticle(){
+      this.$store.dispatch('disLikeArticle', this.article)
+      this.recommendUsers -= 1
     }
   },
 
@@ -77,6 +90,17 @@ export default {
     },
     comments(){
       return this.$store.state.comments
+    },
+
+    
+    likeStatus(){
+      return this.$store.state.likeArticles.find(elem=>{
+        return elem.id === this.article.id
+      })
+    },
+
+    isLogin(){
+      return this.$store.getters.loginStatus;
     }
   },
 

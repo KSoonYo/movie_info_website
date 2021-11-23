@@ -11,7 +11,7 @@
       <p>상영시간: {{movie.runtime}}분 </p>
       <p> 영화 평점: {{movie.vote_average}} </p>
       <button @click="pressLikeButton" v-if="isLogin && !likeStatus">좋아요</button> 
-      <button  @click="pressLikeButton" v-else-if="isLogin && likeStatus">좋아요 취소</button>
+      <button  @click="pressDislikeButton" v-else-if="isLogin && likeStatus">좋아요 취소</button>
       <span> {{ likeUsers }} 명이 이 영화를 좋아합니다. </span>
       <!-- <iframe :src="videoURL" frameborder="0"></iframe> -->
 
@@ -52,23 +52,16 @@
 </template>
 
 <script>
-import axios from 'axios'
 
-const BASE_URL = process.env.VUE_APP_BACK_END_URL
-const accessToken = localStorage.getItem('accessToken')
 
 export default {
   name: 'MoviesListItem',
   data(){
     return{
-      movie : this.$store.state.movie,
       videoURL: this.$store.state.movie.trailer_path,
       reviewContent : '',
       rank: 1,
-      likeUsers: this.$store.state.movie.like_users.length,
-      likeStatus : this.$store.state.movie.like_users.includes(
-        accessToken ? JSON.parse(atob(accessToken.split('.')[1])).user_id  : ''
-        )
+      likeUsers : this.$store.state.movie.like_users.length
     }
   },
 
@@ -76,6 +69,17 @@ export default {
     genres(){
       return this.movie.genre_id.map(genreElem=>{
         return genreElem['genre']
+      })
+    },
+
+    movie(){
+      return this.$store.state.movie
+    },
+
+
+    likeStatus(){
+      return this.$store.state.likeMovies.find(elem=>{
+        return elem.id === this.movie.id
       })
     },
 
@@ -103,49 +107,14 @@ export default {
 
     // 좋아요, 싫어요
     pressLikeButton(){
-      this.$store.dispatch('pressLike', this.movie.id)
-        // 영화 정보 상태 업데이트
-        // 추천 영화 정보 업데이트
-      this.$store.dispatch('getMovie', this.movie.id)
-      this.$store.dispatch('getRecommendMovies', this.movie.id)
+      this.$store.dispatch('pressLike', this.movie)
+      this.likeUsers += 1
 
-      
-      // console.log(this.movie.like_users)
-      // TODO: 아래 POST 요청을 store로 이관하기
-      // 현재 로그인한 유저가 좋아하는 영화 목록에 push & pop
-      // 이 때 좋아하는 영화 목록에는 영화 id가 들어있어야 함
-      axios.post(`${BASE_URL}movies/${this.movie.id}/like/`, {}, {
-        headers:{
-          Authorization: `Bearer ${accessToken}`
-        }
-      })
-      .then(()=>{
-        // 영화 정보 상태 업데이트
-        // 추천 영화 정보 업데이트
-        this.$store.dispatch('getMovie', this.movie.id)
-        this.$store.dispatch('getRecommendMovies', this.movie.id)
-
-
-        // 좋아요 영화 업데이트
-        const payload = {
-          title: this.movie.title,
-          id: this.movie.id
-        }
-        this.$store.commit('UPDATE_LIKE_MOVIES', payload)
-
-        this.likeUsers = this.likeStatus ? this.likeUsers-1 : this.likeUsers+1 
-        this.likeStatus = !this.likeStatus
-
-      })
-      .catch(()=>{
-        alert('로그인이 필요합니다!')
-      })
     },
 
     pressDislikeButton(){
       this.$store.dispatch('pressDislike', this.movie)
-      this.$store.dispatch('getMovie', this.movie.id)
-      this.$store.dispatch('getRecommendMovies', this.movie.id)
+      this.likeUsers -= 1
 
     },
 
@@ -164,7 +133,7 @@ export default {
   },
 
   // 페이지 렌더링할 때 리뷰 목록 불러오기 + 추천 영화 목록 불러오기
-  created(){   
+  created(){
     this.$store.dispatch('getReviews', this.movie.id)
     this.$store.dispatch('getRecommendMovies', this.movie.id)
   }
