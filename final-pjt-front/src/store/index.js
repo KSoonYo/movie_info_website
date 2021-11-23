@@ -35,6 +35,7 @@ export default new Vuex.Store({
     pagePerSize : 6,
     // Movie
     movie: '',
+    moviesTotal: [],
     nowPlayMovies : [],
     popularMovies: [],
     reviews: [],
@@ -70,7 +71,6 @@ export default new Vuex.Store({
       state.myComments = userData.comment_set
       state.myReviews = userData.review_set
 
-      console.log('유저 셋팅 완료!')
     },
 
     DELETE_TOKEN(state){
@@ -91,10 +91,17 @@ export default new Vuex.Store({
       state.movie = ''
     },
 
+    // 전체 영화 settings
+    // SET_MOVIES_TOTAL(state){
+
+    // },
+
+    // 현재 상영 중인 영화 
     SET_NOW_MOVIES(state, newMovies){
       state.nowPlayMovies = newMovies
     },
 
+    // 인기 영화
     SET_POPULAR_MOVIES(state, popularMovies){
       state.popularMovies = popularMovies
     },
@@ -141,7 +148,9 @@ export default new Vuex.Store({
 
     // 좋아요 취소
     DELETE_LIKE_MOVIE(state, myMovie){
-      state.likeMovies.splice(state.likeMovies.indexOf(myMovie.id), 1)
+      state.likeMovies = state.likeMovies.filter(likeMovie=>{
+        return likeMovie.id !== myMovie.id
+      })
     },
 
 
@@ -181,7 +190,9 @@ export default new Vuex.Store({
 
     // 게시글 삭제
     DELETE_ARTICLE(state, deletedArticle){
-      state.articles.splice(state.articles.indexOf(deletedArticle.id), 1)
+      state.articles = state.articles.filter(article=>{
+        return article.id !== deletedArticle.id
+      })
     },
 
     // 게시글 좋아요 
@@ -193,7 +204,9 @@ export default new Vuex.Store({
 
     // 게시글 싫어요
     DELETE_LIKE_ARTICLE(state, article){
-      state.likeArticles.splice(state.likeArticles.indexOf(article.id), 1)
+      state.likeArticles = state.likeArticles.filter(likeArticle=>{
+        return likeArticle.id !== article.id
+      })
     },
 
     // 댓글 셋팅
@@ -208,7 +221,9 @@ export default new Vuex.Store({
 
     // 댓글 삭제
     DELETE_COMMENT(state, commentId){
-      state.comments.splice(state.comments.indexOf(commentId), 1)
+      state.comments = state.comments.filter(comment=>{
+        return comment.id !== commentId
+      })
     }
 
   },
@@ -246,6 +261,17 @@ export default new Vuex.Store({
         })
     },
 
+    // 전체 영화 목록 조회
+    // setAllMovies({commit}){
+    //   axios.get('/movies/total/')
+    //     .then(res=>{
+    //       console.log(res)
+    //       commit()
+    //       commit('SET_MOVIES_TOTAL')
+    //     })
+    // },
+
+    // 현재 상영 중인 영화 목록
     setNowPlayMovies({commit}){
       axios.get('movies/play/')
         .then(res=>{
@@ -319,7 +345,8 @@ export default new Vuex.Store({
       }).then(()=>{
         commit('SET_LIKE_MOVIE', {
           id: movie.id,
-          title: movie.title
+          title: movie.title,
+          poster_path: movie.poster_path
         })     
       })
         .then(()=>{

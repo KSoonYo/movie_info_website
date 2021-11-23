@@ -159,12 +159,12 @@ const router = new VueRouter({
 // 라우터 네비게이션 전역 가드
 router.beforeEach((to, from, next) => {
   const accessToken = localStorage.getItem('accessToken')
-  if (to.name === 'Index' || to.name === 'Login' || to.name === 'Signup' ) {
+  if (to.name === 'Index' || to.name === 'Login' || to.name === 'Signup') {
     if (accessToken) {
-      console.log('이동되었습니다.')
-      next({ name: 'Popular' })
+      // console.log('이동되었습니다.')
+      next({ name: 'NowPlay' })
     }
-  } else if(to.name === 'CommunityCreate'){
+  } else if(to.name === 'CommunityCreate' || to.name === 'Profile'){
     if(!accessToken){
       alert('로그인이 필요합니다.')
       next(from)
