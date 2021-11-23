@@ -117,7 +117,7 @@ export default new Vuex.Store({
 
     GET_MOVIE(state, movieData){
       state.movie = movieData
-      router.push({name: 'MoviesListItem', query:{movieId: movieData.id}}).catch(()=>{})
+      // router.push({name: 'MoviesListItem', query:{movieId: movieData.id}}).catch(()=>{})
     },
 
     // 유저 좋아요 영화 업데이트
@@ -190,6 +190,7 @@ export default new Vuex.Store({
     },
 
 
+
     // 게시글 싫어요
     DELETE_LIKE_ARTICLE(state, article){
       state.likeArticles.splice(state.likeArticles.indexOf(article.id), 1)
@@ -222,9 +223,11 @@ export default new Vuex.Store({
         .then(response=>{
           localStorage.setItem('accessToken', response.data.access)
           commit('SET_TOKEN', response.data.access)
+        })
+        .then(()=>{
           dispatch('getProfile', username)
         })
-        
+       
     },
 
     // 유저 정보 조회
@@ -237,7 +240,9 @@ export default new Vuex.Store({
         } 
       }).then(res=>{
           commit('SET_PROFILE', res.data)
-          router.push({name: 'MoviesList'}).catch(()=>{})
+        })
+        .then(()=>{
+          router.push({name: 'Popular'}).catch(()=>{})
         })
     },
 
@@ -263,6 +268,9 @@ export default new Vuex.Store({
       axios.get(`/movies/${movieId}/`)
       .then(res=>{
         commit('GET_MOVIE', res.data)
+      })
+      .then(()=>{
+        router.push({name: 'MoviesListItem', query: {moiveId : movieId}}).catch(()=>{})
       })
     },
 
@@ -315,6 +323,7 @@ export default new Vuex.Store({
         })     
       })
         .then(()=>{
+          dispatch('getMovie', movie.id)
           dispatch('getRecommendMovies', movie.id)
         })
     },
@@ -332,6 +341,7 @@ export default new Vuex.Store({
         })
       })
       .then(()=>{
+        dispatch('getMovie', movie.id)
         dispatch('getRecommendMovies', movie.id)
       })
     },
@@ -396,7 +406,7 @@ export default new Vuex.Store({
     },
 
     // 게시글 추천(좋아요)
-    likeArticle({commit, state}, article){
+    likeArticle({commit, dispatch,state}, article){
       axios.post(`articles/${article.id}/like/`, {}, {
         headers: {
           Authorization: `Bearer ${state.accessToken}`
@@ -405,10 +415,13 @@ export default new Vuex.Store({
         .then(()=>{
            commit('SET_LIKE_ARTICLE', article)
         })
+        .then(()=>{
+          dispatch('getArticle', article.id)
+        })
     },
 
     // 게시글 추천 취소 (좋아요 취소)
-    disLikeArticle({commit, state}, article){
+    disLikeArticle({commit, dispatch,state}, article){
       axios.post(`articles/${article.id}/like/`, {}, {
         headers: {
           Authorization: `Bearer ${state.accessToken}`
@@ -416,6 +429,9 @@ export default new Vuex.Store({
       })
         .then(()=>{
            commit('DELETE_LIKE_ARTICLE', article)
+        })
+        .then(()=>{
+          dispatch('getArticle', article.id)
         })
     },
 

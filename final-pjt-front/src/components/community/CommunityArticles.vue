@@ -1,6 +1,5 @@
 <template>
   <section class="overflow-auto">
-      <h1>{{ items.length }}</h1>
       <b-table id="my-table" fixed bordered hover 
         :items="items" 
         :fields="fields"
@@ -29,7 +28,7 @@
       :total-rows="rows"
       :per-page="perPage"
       aria-controls="my-table" use-router></b-pagination-nav> -->
-
+<!-- 
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li class="page-item">
@@ -46,7 +45,7 @@
         </a>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 
     </section>
 </template>

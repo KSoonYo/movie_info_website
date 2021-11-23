@@ -16,7 +16,7 @@
         <p> 영화 평점: {{movie.vote_average}} </p>
         <span> {{ likeUsers }} 명이 이 영화를 좋아합니다. </span>
         <button @click="pressLikeButton" v-if="isLogin && !likeStatus">좋아요</button> 
-        <button  @click="pressDisLikeButton" v-else-if="isLogin && likeStatus">좋아요 취소</button>
+        <button  @click="pressDislikeButton" v-else-if="isLogin && likeStatus">좋아요 취소</button>
         <p class="mt-3">{{ movie.overview }} </p>
       </div>
       <!-- <iframe :src="videoURL" frameborder="0"></iframe> -->
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-
+import {timeMark} from '@/utils/datetime'
 
 export default {
   name: 'MoviesListItem',
@@ -103,7 +103,13 @@ export default {
     },
 
     reviews(){
-      return this.$store.state.reviews
+     
+      return this.$store.state.reviews.map(review=>{
+        return {
+          ...review,
+          created_at : timeMark(review.created_at)
+        }
+      })
     },
 
     recommendMovies(){
@@ -153,6 +159,7 @@ export default {
 
   // 페이지 렌더링할 때 리뷰 목록 불러오기 + 추천 영화 목록 불러오기
   created(){
+    this.$store.dispatch('getMovie', this.movie.id)
     this.$store.dispatch('getReviews', this.movie.id)
     this.$store.dispatch('getRecommendMovies', this.movie.id)
   }

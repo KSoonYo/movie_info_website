@@ -43,7 +43,7 @@ export default {
       const payload = new FormData()
       payload.append('title', this.title)
       payload.append('content', this.content)
-      payload.append('category', event.target[0].options.selectedIndex === 0 ? 'FREE':'RECOMMENT')
+      payload.append('category', event.target[0].options.selectedIndex === 0 ? 'FREE':'RECOMMEND')
       if (this.image[0]) {
         payload.append('image', this.image[0])
       }
