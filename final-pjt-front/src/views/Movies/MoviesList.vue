@@ -19,7 +19,6 @@ export default {
     NavBar
   },
 
-  
 
   // mount 되면 로컬스토리지에 남아있는 movie 정보를 빈값으로 초기화
   mounted(){

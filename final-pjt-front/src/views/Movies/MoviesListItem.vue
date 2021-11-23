@@ -103,6 +103,13 @@ export default {
 
     // 좋아요, 싫어요
     pressLikeButton(){
+      this.$store.dispatch('pressLike', this.movie.id)
+        // 영화 정보 상태 업데이트
+        // 추천 영화 정보 업데이트
+      this.$store.dispatch('getMovie', this.movie.id)
+      this.$store.dispatch('getRecommendMovies', this.movie.id)
+
+      
       // console.log(this.movie.like_users)
       // TODO: 아래 POST 요청을 store로 이관하기
       // 현재 로그인한 유저가 좋아하는 영화 목록에 push & pop
@@ -135,6 +142,13 @@ export default {
       })
     },
 
+    pressDislikeButton(){
+      this.$store.dispatch('pressDislike', this.movie)
+      this.$store.dispatch('getMovie', this.movie.id)
+      this.$store.dispatch('getRecommendMovies', this.movie.id)
+
+    },
+
     createReview(event){
       event.preventDefault()
       const selectedIndex = event.target[0].options.selectedIndex
@@ -146,7 +160,6 @@ export default {
       }
       this.$store.dispatch('createReview', payload)
     }
-
 
   },
 

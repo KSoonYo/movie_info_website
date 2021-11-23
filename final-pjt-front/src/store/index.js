@@ -125,25 +125,25 @@ export default new Vuex.Store({
     },
 
     // 유저 좋아요 영화 업데이트
-    UPDATE_LIKE_MOVIES(state, payload){
-      const includeStatus = !!state.likeMovies.find(elem=>{
-        return elem.id === payload.id
-      })  
-      if(includeStatus){
-        const index = state.likeMovies.find(elem=>{ return elem.id === payload.id })
-        state.likeMovies.splice(state.likeMovies.indexOf(index), 1)
-      } else{
-        state.likeMovies.push(payload)
-      }
+    // UPDATE_LIKE_MOVIES(state, payload){
+    //   const includeStatus = !!state.likeMovies.find(elem=>{
+    //     return elem.id === payload.id
+    //   })  
+    //   if(includeStatus){
+    //     const index = state.likeMovies.find(elem=>{ return elem.id === payload.id })
+    //     state.likeMovies.splice(state.likeMovies.indexOf(index), 1)
+    //   } else{
+    //     state.likeMovies.push(payload)
+    //   }
       
-    },
+    // },
 
-    // 좋아요, 좋아요 취소
-    GET_MY_MOVIE(state, myMovie){
+    // 좋아요
+    SET_LIKE_MOVIE(state, myMovie){
       state.likeMovies.push(myMovie)
     },
 
-    DELETE_MY_MOVIE(state, myMovie){
+    DELETE_LIKE_MOVIE(state, myMovie){
       const targetMovieIndex = state.likeMovies.find(elem=>{
         return elem.id === myMovie.id
       })
@@ -168,7 +168,8 @@ export default new Vuex.Store({
       const newMyArticle = {
         id: newArticle.id,
         title: newArticle.title,
-        category: newArticle.category
+        category: newArticle.category,
+        image: newArticle.image
       }
       state.myArticles.push(newMyArticle)
     },
@@ -235,12 +236,12 @@ export default new Vuex.Store({
         })
     },
 
-    // setNowPlayMovies(){
-    //   axios.get('')
-    //     .then(res=>{
-    //       // commit('SET_NOW_MOVIES', res.data)
-    //     })
-    // },
+    setNowPlayMovies({commit}){
+      axios.get('movies/play/')
+        .then(res=>{
+          commit('SET_NOW_MOVIES', res.data)
+        })
+    },
 
     
     // 인기 영화 목록 조회
@@ -295,6 +296,35 @@ export default new Vuex.Store({
         alert('로그인이 필요합니다!')
       })
     },
+
+    // 좋아요
+    pressLike({commit, state}, movie){
+      axios.post(`movies/${movie.id}/like/`, {}, {}, {
+        headers:{
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      }).then(()=>{
+        commit('SET_LIKE_MOVIE', {
+          id: movie.id,
+          title: movie.title
+        })
+      })
+    },
+    
+    // 싫어요
+    pressDislike({commit, state}, movie){
+      axios.post(`movies/${movie.id}/like/`, {}, {}, {
+        headers:{
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      }).then(()=>{
+        commit('DELETE_LIKE_MOVIE', {
+          id: movie.id,
+          title: movie.title
+        })
+      })
+    },
+
 
     // 게시글 목록 조회
     getArticles({commit}){

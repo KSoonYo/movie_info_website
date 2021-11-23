@@ -4,7 +4,17 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'App',
 
+  created(){
+    const accessToken = localStorage.getItem('accessToken')
+    this.$store.commit('SET_TOKEN', accessToken)
+  }
+  
+}
+</script>
 
 <style>
 #app {

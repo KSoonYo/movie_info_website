@@ -3,7 +3,7 @@
     <p>게시판 분류: {{ article.category ==='FREE' ? '자유' : '추천' }} </p>
     <h1>타이틀: {{ article.title }} </h1>
     <p> {{article.content}} </p>
-    <img v-if="article.image" :src="article.image" alt="이미지">
+    <img v-if="article.image" :src="`http://127.0.0.1:8000${article.image}`" alt="이미지">
     <p>작성시간: {{ article.created_at }}  </p>
     <p>수정시간: {{ article.updated_at }}  </p>
     <p>작성자 아이디: {{ article.user }}  </p>

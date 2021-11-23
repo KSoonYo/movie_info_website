@@ -2,16 +2,16 @@
   <form @submit="updateArticle">
     <div>
       <label for="title"> 제목 </label>
-      <input v-model="title" id="title" type="text" :placeholder="article.title">
+      <input v-model="title" id="title" type="text" >
     </div>
     <div>
       <label for="content"> 내용 </label>
-      <textarea v-model="content" name="content" id="content" cols="100" rows="5" :placeholder="article.content"></textarea>
+      <textarea v-model="content" name="content" id="content" cols="100" rows="5"></textarea>
     </div>
 
     <div>
       <label for="image-upload"> 이미지 주소 </label>
-      <input @change="onInputImage()" ref="serveyImage" type="file"> 
+      <input @change="onInputImage" ref="articleImage" type="file"> 
     </div>    
     <button> 수정 </button>
   </form>
@@ -36,7 +36,7 @@ export default {
 
   methods:{
     onInputImage(){
-      this.image = this.$refs.serveyImage.files[0]
+      this.image = this.$refs.serveyImage.files
     },
 
     // 이미지 업로드 방법 당최 모르겠다.
@@ -45,7 +45,7 @@ export default {
       const formData = new FormData()
       formData.append("title", this.title)
       formData.append("content", this.content)
-      formData.append("image", this.image)
+      formData.append("image", this.image[0])
 
       const newPayload = {
        articleId : this.$route.query.articleId,
@@ -57,6 +57,9 @@ export default {
 
   created(){
     this.$store.dispatch('getArticle', this.$route.query.articleId)
+    this.article = this.article.title
+    this.content = this.article.content
+    this.image = this.article.image
   }
 }
 </script>

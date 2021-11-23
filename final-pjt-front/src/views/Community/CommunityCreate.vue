@@ -16,7 +16,7 @@
 
     <div>
       <label for="image-upload"> 이미지</label>
-      <input type="text"> <button>업로드 </button> 
+      <input @change="onInputImage" ref="articleImage" type="file">
     </div>    
     <button> 작성 </button>
   </form>
@@ -33,19 +33,25 @@ export default {
       title : '',
       content: '',
       category: '',
+      image: '',
     }
   },
 
   methods: {
     createArticle(event){      
       event.preventDefault()
-      const payload = {
-        category: event.target[0].options.selectedIndex === 0 ? 'FREE' : 'RECOMMEND',
-        title: this.title,
-        content: this.content
-      }
+      const payload = new FormData()
+      payload.append('title', this.title)
+      payload.append('content', this.content)
+      payload.append('category', event.target[0].options.selectedIndex === 0 ? 'FREE':'RECOMMENT')
+      payload.append('image', this.image[0])
+      
       this.$store.dispatch('createArticle', payload)
-    
+
+    },
+
+    onInputImage(){
+      this.image = this.$refs.articleImage.files
     }
   }
 }
