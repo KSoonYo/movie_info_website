@@ -378,6 +378,7 @@ export default new Vuex.Store({
         // console.log('update', res.data)
         commit('UPDATE_ARTICLE', res.data)
         // router.push({name: 'CommunityArticle', query: {articleId: payload.articleId}})
+        router.go(-1)
       })
     },
 

@@ -9,7 +9,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item-dropdown  text="Movies" right>
-                <b-dropdown-item  @click="$router.push('/movies').catch(()=>{})">전체</b-dropdown-item>
+                <b-dropdown-item  @click="$router.push('/movies/popular').catch(()=>{})">전체</b-dropdown-item>
                 
           </b-nav-item-dropdown>
 
@@ -23,7 +23,9 @@
         <b-navbar-nav v-else>
           <b-nav-item  @click="logOut">Logout</b-nav-item>
           <b-nav-item  @click="showMyProfile" class="d-inline d-lg-none">Profile</b-nav-item>
-          <b-nav-item v-if="isSuperUser"> <a :href="process.env.VUE_APP_ADMIN_URL">관리자 페이지</a> </b-nav-item>
+          <b-nav-text class="me-2">
+            <a v-if="isSuperUser" :href="adminUrl" class="text-secondary text-decoration-none">관리자 페이지</a>
+          </b-nav-text>
         </b-navbar-nav>
       
         <b-navbar-nav>
@@ -88,6 +90,10 @@ export default {
 
     isSuperUser(){
       return this.$store.getters.isSuperUser
+    },
+
+    adminUrl () {
+      return process.env.VUE_APP_ADMIN_URL
     }
   },
 

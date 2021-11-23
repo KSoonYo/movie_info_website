@@ -44,7 +44,9 @@ export default {
       payload.append('title', this.title)
       payload.append('content', this.content)
       payload.append('category', event.target[0].options.selectedIndex === 0 ? 'FREE':'RECOMMENT')
-      payload.append('image', this.image[0])
+      if (this.image[0]) {
+        payload.append('image', this.image[0])
+      }
       
       this.$store.dispatch('createArticle', payload)
 
