@@ -162,7 +162,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Index' || to.name === 'Login' || to.name === 'Signup' ) {
     if (accessToken) {
       console.log('이동되었습니다.')
-      next({ name: 'MoviesList' })
+      next({ name: 'Popular' })
     }
   } else if(to.name === 'CommunityCreate'){
     if(!accessToken){
