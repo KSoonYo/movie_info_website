@@ -11,7 +11,7 @@
 
     <div>
       <label for="image-upload"> 이미지 주소 </label>
-      <input @change="onInputImage" ref="articleImage" type="file"> 
+      <input @change="onInputImage" ref="articleImage" type="file">
     </div>    
     <button> 수정 </button>
   </form>
@@ -35,31 +35,33 @@ export default {
   },
 
   methods:{
-    onInputImage(){
-      this.image = this.$refs.serveyImage.files
-    },
-
     // 이미지 업로드 방법 당최 모르겠다.
     updateArticle(event){
       event.preventDefault()
       const formData = new FormData()
       formData.append("title", this.title)
       formData.append("content", this.content)
-      formData.append("image", this.image[0])
+      if (this.image[0]) {
+        formData.append("image", this.image[0])
+      }
+      console.log('보내기전')
 
       const newPayload = {
        articleId : this.$route.query.articleId,
        formData : formData
       }
       this.$store.dispatch('updateArticle', newPayload)
-    }
+    },
+
+    onInputImage(){
+      this.image = this.$refs.articleImage.files
+    },
   },
 
   created(){
-    this.$store.dispatch('getArticle', this.$route.query.articleId)
-    this.article = this.article.title
+    this.$store.dispatch('getArticles', this.$route.query.articleId)
+    this.title = this.article.title
     this.content = this.article.content
-    this.image = this.article.image
   }
 }
 </script>

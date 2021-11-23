@@ -1,6 +1,6 @@
 <template>
   <section class="overflow-auto">
-
+      <h1>{{ items.length }}</h1>
       <b-table id="my-table" fixed bordered hover 
         :items="items" 
         :fields="fields"
