@@ -1,5 +1,5 @@
 <template>
-     <b-navbar toggleable="lg" type="light" class="bg-success">
+     <b-navbar toggleable="lg" type="light" class="bg-light">
        <b-navbar-nav>
         <b-navbar-brand class="logo" @click="$router.push('/').catch(()=>{})">NavBar</b-navbar-brand>
        </b-navbar-nav>
@@ -15,7 +15,7 @@
 
           <b-nav-item @click="$router.push('/community').catch(()=>{})">Community</b-nav-item>
         </b-navbar-nav>
-          
+        
         <b-navbar-nav v-if="!isLogin">
           <b-nav-item @click="showModal">Login</b-nav-item>
         </b-navbar-nav>
@@ -23,6 +23,7 @@
         <b-navbar-nav v-else>
           <b-nav-item  @click="logOut">Logout</b-nav-item>
           <b-nav-item  @click="showMyProfile" class="d-inline d-lg-none">Profile</b-nav-item>
+          <b-nav-item v-if="isSuperUser"> <a :href="process.env.VUE_APP_ADMIN_URL">관리자 페이지</a> </b-nav-item>
         </b-navbar-nav>
       
         <b-navbar-nav>
@@ -36,7 +37,7 @@
         
       <b-navbar-nav class="d-none d-lg-block">
         <b-nav-item>
-          <img v-if="isLogin" v-b-toggle.sidebar-right src="../assets/logo.png" width="100px" height="50px" alt="">
+          <img v-if="isLogin" v-b-toggle.sidebar-right src="../assets/logo.png" width="50px" height="30px" alt="">
         </b-nav-item>
       </b-navbar-nav>
       
@@ -83,6 +84,10 @@ export default {
   computed: {
     isLogin(){
       return this.$store.getters.loginStatus
+    },
+
+    isSuperUser(){
+      return this.$store.getters.isSuperUser
     }
   },
 

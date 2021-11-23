@@ -38,9 +38,11 @@ export default new Vuex.Store({
     nowPlayMovies : [],
     popularMovies: [],
     reviews: [],
+    recommendMovies: [],
 
     // Community
     articles : [],
+    article: null
   },
 
   getters: {
@@ -99,6 +101,11 @@ export default new Vuex.Store({
       state.popularMovies = popularMovies
     },
 
+    // 추천 영화 셋팅
+    SET_RECOMMEND_MOVIES(state, recommendMovies){
+      state.recommendMovies = recommendMovies
+    },
+
     // 리뷰 목록 셋팅
     SET_REVIEWS(state, reviews){
       state.reviews = reviews
@@ -147,6 +154,11 @@ export default new Vuex.Store({
       state.articles = articles
     },
 
+    // 단일 게시글 조회
+    SET_ARTICLE(state, article){
+      state.article = article
+    },
+
     // 게시글 작성
     CREATE_ARTICLE(state, newArticle){
       state.articles.push(newArticle)
@@ -157,9 +169,22 @@ export default new Vuex.Store({
         category: newArticle.category
       }
       state.myArticles.push(newMyArticle)
+    },
+
+    // 게시글 수정
+    UPDATE_ARTICLE(state, updatedArticle){
+      state.articles = state.articles.map(article=>{
+        if(article.id === updatedArticle.id){
+          return updatedArticle
+        } else{
+          return article
+        }
+      })
+    },
+
+    DELETE_ARTICLE(state, deletedArticle){
+      state.articles.splice(state.articles.indexOf(deletedArticle.id), 1)
     }
-
-
   },
 
   actions: {
@@ -216,6 +241,14 @@ export default new Vuex.Store({
       })
     },
 
+    // 추천 영화 목록 조회
+    getRecommendMovies({commit}, movieId){
+      axios.get(`/movies/${movieId}/recommend/`)
+        .then(res=>{
+          console.log(res)
+          commit('SET_RECOMMEND_MOVIES', res.data)
+        })
+    },
 
     // 리뷰 목록 조회
     getReviews({commit}, movieId){
@@ -251,6 +284,15 @@ export default new Vuex.Store({
           commit('SET_ARTICLES', res.data.results)
         })
     },
+  
+    // 단일 게시글 조회
+    getArticle({commit}, articleId){
+      axios.get(`/articles/${articleId}/`)
+        .then(res=>{
+          console.log(res)
+          commit('SET_ARTICLE', res.data)
+        })
+    },
 
     // 게시글 작성
     createArticle({commit, state}, payload){
@@ -262,6 +304,33 @@ export default new Vuex.Store({
         commit('CREATE_ARTICLE', res.data)
         router.go(-1)
       })
+    },
+
+    // 게시글 수정
+    updateArticle({commit, state}, payload){
+      axios.put(`/articles/${payload.articleId}/`, payload.formData, 
+      {
+        headers:{
+          Authorization: `Bearer ${state.accessToken}`,
+        }
+      }).then((res)=>{
+        // console.log('update', res.data)
+        commit('UPDATE_ARTICLE', res.data)
+        // router.push({name: 'CommunityArticle', query: {articleId: payload.articleId}})
+      })
+    },
+
+    // 게시글 삭제
+    deleteArticle({commit, state}, article){
+      axios.delete(`/articles/${article.id}/`, {
+        headers: {
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      })
+        .then(()=>{
+          commit('DELETE_ARTICLE', article)
+          router.go(-1)
+        })
     }
   },
   modules: {

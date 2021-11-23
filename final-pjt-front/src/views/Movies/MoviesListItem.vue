@@ -37,8 +37,15 @@
         <button>작성</button>
       </form>
     </article>
-      <aside v-if="isLogin">
-        추천 영화 목록
+
+    <!-- 추천 영화 목록  -->
+      <aside>
+        <h3> 추천 영화 목록 </h3>
+        <div class="container">
+          <div class="row">
+            <img class="movie-poster col-2" :src="recommendMovie.poster_path" alt="" v-for="recommendMovie in recommendMovies" :key="recommendMovie.id">
+          </div>
+        </div>
       </aside>
 
   </section>
@@ -76,6 +83,10 @@ export default {
       return this.$store.state.reviews
     },
 
+    recommendMovies(){
+      return this.$store.state.recommendMovies
+    },
+
     isLogin(){
       return this.$store.getters.loginStatus
     },
@@ -103,7 +114,10 @@ export default {
       })
       .then(()=>{
         // 영화 정보 상태 업데이트
+        // 추천 영화 정보 업데이트
         this.$store.dispatch('getMovie', this.movie.id)
+        this.$store.dispatch('getRecommendMovies', this.movie.id)
+
 
         // 좋아요 영화 업데이트
         const payload = {
@@ -136,9 +150,10 @@ export default {
 
   },
 
-  // 페이지 렌더링할 때 리뷰 목록 불러오기 
+  // 페이지 렌더링할 때 리뷰 목록 불러오기 + 추천 영화 목록 불러오기
   created(){   
     this.$store.dispatch('getReviews', this.movie.id)
+    this.$store.dispatch('getRecommendMovies', this.movie.id)
   }
 
   
@@ -146,6 +161,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

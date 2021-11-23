@@ -1,31 +1,9 @@
 <template>
-  <div>
-    <button @click="toMovies"> movies </button>
-    <button @click="toCommunity" class="mx-2"> community </button>
-    <button @click="showModal"> login </button>
+  <div class="menu-list d-flex justify-content-around">
+    <span class="navigation p-2" @click="toMovies"> Movies </span>
+    <span class="navigation p-2" @click="toCommunity"> Community </span>
+    <span class="navigation p-2 " @click="showModal"> Login </span>
     
-    <!-- <modal name="login-modal"
-    :adaptive="true"
-    :draggable="true"
-    :focusTrap="true"
-    :scrollable="true"
-    height="auto"
-    :classes="['d-flex', 'justify-content-between']"
-    >
-      <p>이미지</p>
-      <section class="d-flex flex-column">
-        <h1>Login</h1>
-        <form>
-          <input type="text">
-          <br>
-          <input type="text">
-          <br>
-          <button>login</button>
-          <button>sign up</button>
-        </form>
-      </section>
-    </modal> -->
-
     <login-modal v-if="!hideModal"></login-modal>
     
   </div>
@@ -73,6 +51,21 @@ export default {
 </script>
 
 <style>
+.menu-list{
+  margin-top: 50px;
+  padding-right: 10px;
+}
 
+.navigation{
+  font-size: 1.5rem;
+  font-weight: bolder;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px black inset;
+  text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000;
+}
+
+.navigation:hover{
+  box-shadow: 5px 5px 5px 5px gray
+}
 
 </style>

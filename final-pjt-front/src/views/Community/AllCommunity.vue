@@ -15,31 +15,24 @@ export default {
     CommunityArticles,
     CreateArticle
   },
-  data(){
-    return{
-      items : []
+
+  computed:{
+    items(){
+      return this.$store.state.articles.map(elem=>{
+        return {
+          id: elem.id,
+          '분류': elem.category === "RECOMMEND" ? '추천' : '자유' ,
+          '제목': elem.title,
+          '작성자': elem.user.nickname,
+          '작성시간' : elem.created_at
+        }
+      })
     }
   },
 
   created(){
-      const articles = this.$store.state.articles
-      console.log(articles)
-      const itemsArray = []
-      articles.forEach(elem=>{
-        const newElem = {
-          id: elem.id,
-          '분류': elem.category === "RECOMMEND" ? '추천' : '자유' ,
-          '제목': elem.title,
-          '작성자': elem.user,
-          '작성시간' : elem.created_at
-        }
-        itemsArray.push(newElem)
-      })
- 
-    this.items = itemsArray
-    console.log(this.items)
+    return this.$store.dispatch('getArticles')
   }
-
 }
 </script>
 

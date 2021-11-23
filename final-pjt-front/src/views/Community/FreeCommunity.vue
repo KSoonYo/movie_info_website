@@ -20,28 +20,21 @@ export default {
    data(){
     return{
       category: 'free',
-      items: []
+    }
+  },
+
+  
+  computed:{
+    items(){
+      return this.$store.state.articles.filter(elem=>{
+        return elem.category === '자유'
+      })
     }
   },
 
   created(){
-      const articles = this.$store.state.articles
-      const itemsArray = []
-      articles.filter(elem=>{
-          return elem.category === 'FREE'
-      }).forEach(elem=>{
-        const newElem = {
-           id: elem.id,
-          '분류': '자유',
-          '제목': elem.title,
-          '작성자': elem.user,
-          '작성시간' : elem.created_at
-        }
-        itemsArray.push(newElem)
-      })
- 
-    this.items = itemsArray
-
+    this.$store.dispatch('getArticles')
+    console.log(this.$store.state.articles)
   }
 }
 </script>

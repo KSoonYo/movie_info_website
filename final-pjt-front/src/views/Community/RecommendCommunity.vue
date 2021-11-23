@@ -20,27 +20,20 @@ export default {
   data(){
     return{
       category: 'recommend',
-      items: []
     }
   },
 
-   created(){
-      const articles = this.$store.state.articles
-      const itemsArray = []
-      articles.filter(elem=>{
-          return elem.category === 'RECOMMEND'
-      }).forEach(elem=>{
-        const newElem = {
-           id: elem.id,
-          '분류': '추천',
-          '제목': elem.title,
-          '작성자': elem.user,
-          '작성시간' : elem.created_at
-        }
-        itemsArray.push(newElem)
+  computed:{
+    items(){
+      return this.$store.state.articles.filter(elem=>{
+        return elem.category === 'RECOMMEND'
       })
- 
-    this.items = itemsArray
+    }
+  },
+
+  created(){
+    return this.$store.dispatch('getArticles')
+
   }
 }
 </script>

@@ -99,7 +99,7 @@ const routes = [
       },
 
       {
-        path: '/community/update/:articleId',
+        path: '/community/update/',
         name: 'CommunityUpdate',
         component: CommunityUpdate,
       }

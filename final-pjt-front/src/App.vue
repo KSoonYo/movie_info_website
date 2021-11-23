@@ -13,6 +13,8 @@
   -moz-osx-font-smoothing: grayscale;  
   height: 100%;
   overflow: auto;
-  background: linear-gradient(180deg, #8C2D87, #6350c5, 	#8B8472);
+
+  /* background: linear-gradient(to right, rgba(9, 8, 10, 0.795) 0%, rgba(19, 17, 15, 0.959) 80%, rgb(22, 21, 21) 100%); */
 }
+
 </style>

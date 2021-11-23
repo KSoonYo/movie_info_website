@@ -58,10 +58,10 @@ export default {
 
   data(){
     return{
-      perPage: 4,
+      perPage: 20,
       currentPage: 1,
       fields: ['분류', '제목', '작성자', '작성시간'],
-      
+      article: ''
     }
   },
 
@@ -79,9 +79,7 @@ export default {
 
   methods:{
     rowClicked(item){
-      console.log('clicked!', item)
-      // TODO: articleid로 변경해서 query를 날려줘야 함!
-      this.$router.push({name: 'CommunityArticle', query:{ userId : item['작성자']}} ).catch(()=>{})
+      this.$router.push({name: 'CommunityArticle', query:{ articleId : item.id}} ).catch(()=>{})
     },
 
     // linkGen(pageNum) {
