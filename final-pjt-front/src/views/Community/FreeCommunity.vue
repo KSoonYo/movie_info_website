@@ -25,16 +25,23 @@ export default {
 
   
   computed:{
-    items(){
+     items(){
       return this.$store.state.articles.filter(elem=>{
-        return elem.category === '자유'
+        return elem.category === 'FREE'
+      }).map(elem=>{
+        return {
+          id: elem.id,
+          '분류': elem.category === "RECOMMEND" ? '추천' : '자유' ,
+          '제목': elem.title,
+          '작성자': elem.user.nickname,
+          '작성시간' : elem.created_at
+        }
       })
     }
   },
 
   created(){
     this.$store.dispatch('getArticles')
-    console.log(this.$store.state.articles)
   }
 }
 </script>

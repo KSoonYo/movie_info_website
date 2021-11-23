@@ -79,7 +79,7 @@ export default {
 
   methods:{
     rowClicked(item){
-      this.$router.push({name: 'CommunityArticle', query:{ articleId : item.id}} ).catch(()=>{})
+      this.$store.dispatch('getArticle', item.id)
     },
 
     // linkGen(pageNum) {

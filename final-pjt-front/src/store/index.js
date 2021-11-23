@@ -42,7 +42,9 @@ export default new Vuex.Store({
 
     // Community
     articles : [],
-    article: null
+    article: null,
+    comments : [],
+
   },
 
   getters: {
@@ -182,9 +184,26 @@ export default new Vuex.Store({
       })
     },
 
+    // 게시글 삭제
     DELETE_ARTICLE(state, deletedArticle){
       state.articles.splice(state.articles.indexOf(deletedArticle.id), 1)
+    },
+
+    // 댓글 셋팅
+    SET_COMMENTS(state, comments){
+      state.comments = comments
+    },
+
+    // 댓글 생성
+    CREATE_COMMENT(state, comment){
+      state.comments.push(comment)
+    },
+
+    // 댓글 삭제
+    DELETE_COMMENT(state, commentId){
+      state.comments.splice(state.comments.indexOf(commentId), 1)
     }
+
   },
 
   actions: {
@@ -289,8 +308,9 @@ export default new Vuex.Store({
     getArticle({commit}, articleId){
       axios.get(`/articles/${articleId}/`)
         .then(res=>{
-          console.log(res)
           commit('SET_ARTICLE', res.data)
+          router.push({name: 'CommunityArticle', query:{ articleId : articleId}} ).catch(()=>{})
+
         })
     },
 
@@ -331,7 +351,44 @@ export default new Vuex.Store({
           commit('DELETE_ARTICLE', article)
           router.go(-1)
         })
+    },
+
+
+    // 댓글 목록 조회
+    getComments({commit}, articleId){
+      axios.get(`/articles/${articleId}/comment/`)
+        .then(res=>{
+          console.log('댓글 목록', res.data)
+          commit('SET_COMMENTS', res.data)
+        })
+    },
+
+    // 댓글 생성
+    createComment({commit, state}, payload){
+      axios.post(`/articles/${payload.articleId}/comment/`, {
+        content: payload.content
+      }, {
+        headers:{
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      }).then(res=>{
+        commit('CREATE_COMMENT', res.data)
+  
+      })
+    },
+
+    // 댓글 삭제
+    deleteComment({commit, state}, payload){
+      axios.delete(`/articles/${payload.articleId}/comment/${payload.commentId}`, {
+        headers:{
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      }).then(()=>{
+        commit('DELETE_COMMENT', payload.commentId)
+  
+      })
     }
+
   },
   modules: {
   }

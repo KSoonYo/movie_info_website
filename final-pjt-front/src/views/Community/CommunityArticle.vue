@@ -18,12 +18,16 @@
 
     <article>
       <h2>댓글 목록</h2>
-      <div>
-        <p>작성자: SSOO</p>
-        <span>댓글: 반갑습니다!</span>
+      <div v-for="comment in comments" :key="comment.id">
+        <p>작성자: {{comment.user }} </p>
+        <span> 작성 시간: {{ comment.created_at }} </span>
+        <p>
+          댓글: {{ comment.content }} 
+          <button class="d-inline" @click="deleteComment(comment)"> 댓글 삭제 </button>
+        </p>
       </div>
-      <form>
-        <input type="text">
+      <form @submit="createComment">
+        <input type="text" v-model="commentContent">
         <button>댓글 작성</button>
       </form>
     </article>
@@ -33,7 +37,12 @@
 <script>
 export default {
   name: 'CommunityArticle',
- 
+  data(){
+    return({
+      commentContent: ''
+    })
+  },
+
   methods:{
     updateArticle(){
       this.$router.push({name: 'CommunityUpdate', query:{articleId: this.$route.query.articleId} })
@@ -41,19 +50,39 @@ export default {
 
     deleteArticle(){
       this.$store.dispatch('deleteArticle', this.article)
+    },
+
+    createComment(event){
+      event.preventDefault()
+      const payload = {
+        articleId: this.article.id,
+        content: this.commentContent 
+      }
+      this.$store.dispatch('createComment', payload)
+    },
+
+    deleteComment(comment){
+      // console.log(comment)
+      const payload = {
+        articleId : this.article.id,
+        commentId: comment.id
+      }
+      this.$store.dispatch('deleteComment', payload)
     }
   },
 
   computed:{
     article(){
-      console.log('현재 article', this.$store.state.article)
       return this.$store.state.article
+    },
+    comments(){
+      return this.$store.state.comments
     }
   },
 
   created(){
     this.$store.dispatch('getArticle', this.$route.query.articleId)
-    
+    this.$store.dispatch('getComments', this.$route.query.articleId)
   }
 }
 </script>
