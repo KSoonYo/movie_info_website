@@ -346,6 +346,7 @@ export default new Vuex.Store({
           Authorization: `Bearer ${state.accessToken}`
         } 
       }).then(res=>{
+          // console.log('유저 정보 response', res)
           commit('SET_PROFILE', res.data)
         })
         .then(()=>{
@@ -489,7 +490,7 @@ export default new Vuex.Store({
 
     },
 
-    // 좋아요
+    // 영화 좋아요
     pressLike({commit, dispatch, state}, movie){
       axios.post(`movies/${movie.id}/like/`, {}, {
         headers:{

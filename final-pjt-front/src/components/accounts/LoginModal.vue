@@ -60,8 +60,8 @@ export default {
       }
 
       const payload = {
-        username : this.username,
-        password : this.password,
+        username : this.username.trim(),
+        password : this.password.trim(),
         instance: this
       }
       this.$store.dispatch('getToken', payload)

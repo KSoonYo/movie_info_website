@@ -1,38 +1,59 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <section class="container">
-      <h1>회원가입 페이지</h1>
+    <h1>회원가입</h1>
+    <section class="p-3 container rounded mt-3">
       <!-- form 스타일링 필요 -->
-      <form @submit="createUser">
-        <p>
-          <label for=""> username</label>
-          <input v-model="username" type="text" required>
-          <span v-if="multipleUserNameError"> {{ multipleUserNameError }} </span>
+      <div class="col-6 offset-3">
+        <form @submit="createUser" class="my-form p-2 col-12">
+      
+        <div class="row my-1 mx-2">
+          <label for="username" class="p-0"> 아이디 </label>
+          <b-form-input class="p-0 px-2" v-model="username" id="username" type="text" required></b-form-input>
+          <p v-if="multipleUserNameError">
+            <span> {{ multipleUserNameError }} </span>
+          </p>
           <span v-if="usernameAlertStatus"> 입력칸을 채워주세요 </span>
-        </p>
-        <p>
-          <label for=""> nickname</label>
-          <input v-model="nickname" type="text" required>
-          <span v-if="multipleNickNameError"> {{ multipleNickNameError }}  </span>
-          <span v-if="!nickname.trim()"> 입력칸을 채워주세요 </span>
-        </p>
-        <p>
-          <label for=""> password</label>
-          <input v-model="password" type="password" required>
+        </div>
+        <div class="row my-1 mx-2">
+          <label for="nickname" class="col-12"> 닉네임 </label>
+          <div>
+            <input v-model="nickname" id="nickname" type="text" required>
+          </div>
+          <p v-if="multipleNickNameError">
+            <span> {{ multipleNickNameError }}  </span>
+          </p>
+          <span v-if="nicknameAlertStatus"> 입력칸을 채워주세요 </span>
+        </div>
+        <div class="row my-1 mx-2">
+          <label for="password" class="col-12"> 비밀번호 </label>
+          <div>
+            <input v-model="password" id="password" type="password" required>
+          </div>
           <span v-if="passwordAlertStatus"> 입력칸을 채워주세요 </span>
-
-        </p>
-        <p>
-          <label for=""> passwordConfirmation</label>
-          <input v-model="passwordConfirmation" type="password" required>
-          <span v-if="invalidPasswordConfirm" > {{ invalidPasswordConfirm }}  </span>
-          <span v-if="!passwordConfirmation.trim()"> 입력칸을 채워주세요 </span>
-
-        </p>
-       
-        <button>sign up</button>
+        </div>
+        <div class="row my-1 mx-2">
+          <div>
+            <label for="passwordConfrimation"> 비밀번호 확인 </label>
+          </div>
+          <div>
+            <input v-model="passwordConfirmation" id="passwordConfirmation" type="password" required>
+          </div>
+          <p v-if="invalidPasswordConfirm">
+            <span> {{ invalidPasswordConfirm }}  </span>
+          </p>
+          <span v-if="passwordConfirmAlertStatus"> 입력칸을 채워주세요 </span>
+        </div>
+  
+       <div class="row my-3 mx-2">
+        <div>
+          <button class="btn my-button">sign up</button>
+        </div>
+       </div>
       </form>
+    </div>
+      
+
     </section>
   </div>
 </template>
@@ -51,6 +72,10 @@ export default {
 
       usernameAlertStatus: false,
       passwordAlertStatus: false,
+      nicknameAlertStatus: false,
+      passwordConfirmAlertStatus: false,
+
+
       invalidPasswordConfirm: '',
       multipleUserNameError : '',
       multipleNickNameError : ''
@@ -62,6 +87,7 @@ export default {
   methods:{
     createUser(event){
       event.preventDefault()
+      
       if(!this.username.trim()){
         this.usernameAlertStatus = true
       } else{
@@ -74,12 +100,30 @@ export default {
         this.passwordAlertStatus = false
       }
 
+      if (!this.nickname.trim()) {
+        this.nicknameAlertStatus = true
+      } else{
+        this.nicknameAlertStatus = false
+      }
+    
+      if (!this.passwordConfirmation.trim()) {
+        this.passwordConfirmAlertStatus = true
+      } else{
+        this.passwordConfirmAlertStatus = false
+      }
+
+      if(this.usernameAlertStatus || this.passwordAlertStatus || this.nicknameAlertStatus || this.passwordConfirmAlertStatus){
+        return
+      }
+
+
+
 
       this.$store.dispatch('createUser',  {
-        username: this.username,
-        nickname: this.nickname,
-        password: this.password,
-        password_confirmation: this.passwordConfirmation,
+        username: this.username.trim(),
+        nickname: this.nickname.trim(),
+        password: this.password.trim(),
+        password_confirmation: this.passwordConfirmation.trim(),
         instance : this
       })
     }
@@ -87,6 +131,14 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.my-form{
+  background-color: rgb(45, 45, 45);
+}
 
+.my-button{
+  background-color: rgb(111, 74, 142);
+  color: white;
+
+}
 </style>
