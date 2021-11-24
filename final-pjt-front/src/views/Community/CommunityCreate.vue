@@ -77,7 +77,7 @@ export default {
 <style scoped>
 .my-bg{
   background-color: rgb(65, 65, 65);
-  border-color: rgb(34, 40, 49);
+  border-color: rgb(65, 65, 65);
   color: white;
 }
 
@@ -89,5 +89,6 @@ export default {
   background-color: rgb(111, 74, 142);
   color: white;
 }
+
 
 </style>

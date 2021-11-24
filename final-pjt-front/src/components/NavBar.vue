@@ -126,12 +126,13 @@ export default {
 
     search(event){
       event.preventDefault()
-      console.log('다음에 가야 할 컴포넌트 이름', this.$route.name)
 
       const nextTo = this.$route.name
 
       this.$store.commit('SET_SEARCH_KEY', this.searchContent)
-      this.$emit('search-content', nextTo)
+      nextTo === 'Popular' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
+      this.$router.push({name: nextTo, query:{searchKeyWord: this.$store.state.searchKeyWord }}).catch(()=>{})
+
     }
   },
 

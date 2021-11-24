@@ -24,11 +24,11 @@ export default {
   },
   methods:{
     toMovies(){
-      this.$router.push('/movies').catch(()=>{})
+      this.$router.push({name: 'NowPlay'}).catch(()=>{})
     },
 
     toCommunity(){
-      this.$router.push('/community').catch(()=>{})
+      this.$router.push({name: 'AllCommunity'}).catch(()=>{})
     },
 
     // show(){

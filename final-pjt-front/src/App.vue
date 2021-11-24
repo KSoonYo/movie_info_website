@@ -11,7 +11,6 @@ export default {
   created(){
     const accessToken = localStorage.getItem('accessToken')
     this.$store.commit('SET_TOKEN', accessToken)
-    this.$store.dispatch('setNowPlayMovies', 0)
   
   }
   

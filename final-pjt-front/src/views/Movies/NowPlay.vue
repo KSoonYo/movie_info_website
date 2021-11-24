@@ -15,7 +15,7 @@
     </carousel-3d> -->
 
     
-    <VueSlickCarousel v-bind="settings" class="mt-5">
+    <VueSlickCarousel v-if="isGet" v-bind="settings" class="mt-5">
       <div v-for="(nowMovie) in nowMovies" :key="nowMovie.id">
         <img @click="getNowMovie(nowMovie.id)" :src="nowMovie.poster_path" alt="Image">
       </div>
@@ -35,6 +35,7 @@ export default {
 
   data() {
     return {
+      isGet : false,
       settings: {
           "dots": true,
           "dotsClass": "slick-dots custom-dot-class",
@@ -46,7 +47,8 @@ export default {
           "infinite": true,
           "speed": 500,
           "slidesToShow": 3,
-          "slidesToScroll": 1
+          "slidesToScroll": 1,
+          "pauseOnHover": false
       }
     }
   },
@@ -61,6 +63,12 @@ export default {
     nowMovies(){
       return this.$store.state.nowPlayMovies
     },
+  },
+
+  watch:{
+    nowMovies(){
+      this.isGet = true
+    }
   },
 
   methods:{

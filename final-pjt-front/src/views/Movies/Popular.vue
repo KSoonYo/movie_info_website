@@ -48,8 +48,8 @@ export default {
     },
 
     popularMovies(){
-      if(this.$route.query.searchKeyWord){
-        // 검색 필터링
+      if(this.searchKey){
+        console.log('검색 필터링 실행')
         return this.$store.state.popularMovies.filter(popularmovie=>{
           return popularmovie.title.includes(this.$route.query.searchKeyWord)
         })
@@ -57,6 +57,10 @@ export default {
         return this.$store.state.popularMovies
       }
     },
+
+    searchKey(){
+      return this.$store.state.searchKeyWord
+    }
   },
 
   methods:{
@@ -92,17 +96,9 @@ export default {
       pageNum : 1,
       searchKeyWord : this.$store.state.searchKeyWord
     }
-    console.log('현재 위치 컴포넌트 이름', this.$route.name)
 
-    if(this.$store.state.searchKeyWord){
-      console.log('검색 필터링')
-      console.log('검색 키워드', this.$route.query.searchKeyWord)
-      // 검색 필터링 적용
-      this.$store.dispatch('setPopularMovies', payload)
-    } else{
-      this.$store.dispatch('setPopularMovies', payload)
-    }
-  }
+    this.$store.dispatch('setPopularMovies', payload)
+  },
   
 }
 </script>

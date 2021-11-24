@@ -366,6 +366,7 @@ export default new Vuex.Store({
     // 현재 상영 중인 영화 목록
     setNowPlayMovies({commit, dispatch}, movieId){
       if(movieId){
+        // 단일 상세 조회
         axios.get('movies/play/')
         .then(res=>{
           commit('SET_NOW_MOVIES', res.data)
@@ -374,9 +375,16 @@ export default new Vuex.Store({
             dispatch('getNowMovie', movieId)
           })  
       } else {
+        // 전체 목록 조회
+        console.log('현재 상영 영화 전체 조회')
         axios.get('movies/play/')
           .then(res=>{
+            console.log('현재 상영 영화 목록 response', res.data)
             commit('SET_NOW_MOVIES', res.data)
+          })
+          .then(()=>{
+            console.log('현재 상영 영화 목록으로 이동!')
+            router.push({name: 'NowPlay'}).catch(()=>{})
           })
       }
     },
@@ -398,7 +406,7 @@ export default new Vuex.Store({
 
     
     // 인기 영화 목록 조회
-    setPopularMovies({commit}, payload){
+    setPopularMovies({commit, state}, payload){
       const pageParam = payload.pageNum ? `?page=${payload.pageNum}` : ''
       if(payload.searchKeyWord){
         console.log('검색 영화 목록 출력')
@@ -407,11 +415,18 @@ export default new Vuex.Store({
           // console.log('검색 response', res.data)
           commit('SET_POPULAR_MOVIES', res.data)
         })
+        .then(()=>{
+          router.push({name: 'Popular', query:{searchKeyWord: state.searchKeyWord }}).catch(()=>{})
+        })
       } else {
         console.log('일반 영화 목록 출력')
         axios.get(`/movies/${pageParam}`)
           .then(res=>{
             commit('SET_POPULAR_MOVIES', res.data.results)
+            commit('SET_SEARCH_KEY', '')
+          })
+          .then(()=>{
+            router.push({name: 'Popular' }).catch(()=>{})
           })
       }
     },
