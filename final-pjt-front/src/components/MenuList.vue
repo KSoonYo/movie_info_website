@@ -24,7 +24,7 @@ export default {
   },
   methods:{
     toMovies(){
-      this.$router.push({name: 'NowPlay'}).catch(()=>{})
+      this.$router.push({name: 'TotalMovie'}).catch(()=>{})
     },
 
     toCommunity(){

@@ -9,11 +9,7 @@
 
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
-          <b-nav-item-dropdown  text="Movies" right>
-                <b-dropdown-item @click="$router.push('/movies/popular').catch(()=>{})">전체</b-dropdown-item>
-                
-          </b-nav-item-dropdown>
-
+          <b-nav-item @click="$router.push({name: 'TotalMovie'}).catch(()=>{})"> Movies </b-nav-item>
           <b-nav-item @click="$router.push({name: 'AllCommunity'}).catch(()=>{})">Community</b-nav-item>
         </b-navbar-nav>
         
