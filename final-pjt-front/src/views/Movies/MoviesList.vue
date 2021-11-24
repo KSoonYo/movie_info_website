@@ -2,10 +2,12 @@
   <div>
     <nav-bar @search-content="search"></nav-bar>
     <section class="container">
-      <h1>영화 리스트</h1>
-      <router-link :to="{name: 'NowPlay'}"> 최신 활동사진관 </router-link>
-      <router-link :to="{name: 'Popular'}"> 명작 활동사진관 </router-link>
-      <router-view></router-view>
+      <h1 class="col-2 offset-5 text-center my-4">영화</h1>
+      <div class="row">
+        <router-link class="col-1 offset-4 text-decoration-none border text-center text-white rounded" :to="{name: 'NowPlay'}"> 개봉중 </router-link>
+        <router-link class="col-1 offset-2 text-decoration-none border text-center text-white rounded" :to="{name: 'Popular'}"> 인기 </router-link>
+        <router-view></router-view>
+      </div>
     </section>
   </div>
 </template>

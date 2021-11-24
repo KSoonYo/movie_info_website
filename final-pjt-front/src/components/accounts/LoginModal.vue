@@ -1,24 +1,28 @@
 <template>
   <div>
-     <aside>이미지</aside>
-      <section class="d-flex flex-column">
-        <h1>Login</h1>
+
+    <section class="d-flex flex-column align-items-stretch align-items-center">
+      <h1 class="mx-5 mt-5 mb-4 text-center">Login</h1>
+      <!-- 부트스트랩 login form 사용 예정 -->
+      <form @submit="toLogin" class="mx-5 d-flex flex-column">
         <p v-if="invalidationStatus">로그인 실패실패</p>
-        <!-- 부트스트랩 login form 사용 예정 -->
-        <form @submit="toLogin">
-          <input :class="{'invalid-alert': usernameAlertStatus}" type="text" v-model="username">
-          <span v-if="usernameAlertStatus"> 아이디를 입력해주세요 </span>
-          <br>
-          <input :class="[{'invalid-alert': passwordAlertStatus}]"  type="password" v-model="password">
-          <span v-if="passwordAlertStatus"> 비밀번호를 입력해주세요 </span>
-          <br>
-          
-          <button>login</button>
-        </form>
-        <form @submit="toSignUp">
-          <button>sign up</button>
-        </form>
-      </section>
+        <div>
+          <b-form-input :class="{'invalid-alert': usernameAlertStatus}" type="text" id="username" v-model="username" placeholder="아이디" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-input>
+        </div>
+        <span v-if="usernameAlertStatus" class="error-message"> 아이디를 입력해주세요 </span>
+        <br>
+        <div>
+          <b-form-input :class="[{'invalid-alert': passwordAlertStatus}]" type="password" id="password" v-model="password" placeholder="비밀번호" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-input>
+        </div>
+        <span v-if="passwordAlertStatus" class="error-message"> 비밀번호를 입력해주세요 </span>
+        <br>
+        <button class="btn btn-primary">로그인</button>
+        <div class="d-flex my-3 justify-content-between align-items-center">
+          <span>아직 계정이 없으신가요?</span>
+          <button @click="toSignUp" class="btn mt-0 btn-link">회원 가입</button>
+        </div>
+      </form>
+    </section>
   </div>
 </template>
 
@@ -75,5 +79,18 @@ export default {
 <style>
 .invalid-alert{
   border: 5px solid rgba(192, 36, 36, 0.856);
+}
+.my-form{
+  background-color: rgb(65, 65, 65);
+  color: white;
+}
+
+.vm--modal {
+  background: rgb(45, 45, 45) !important;
+  color: white;
+}
+
+.error-message{
+  color: red;
 }
 </style>

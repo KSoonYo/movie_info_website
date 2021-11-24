@@ -11,6 +11,8 @@ export default {
   created(){
     const accessToken = localStorage.getItem('accessToken')
     this.$store.commit('SET_TOKEN', accessToken)
+    this.$store.dispatch('setNowPlayMovies', 0)
+  
   }
   
 }
@@ -18,7 +20,7 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'IBM Plex Sans KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;  
   height: 100%;

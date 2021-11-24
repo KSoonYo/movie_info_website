@@ -1,5 +1,6 @@
 <template>
-     <b-navbar toggleable="lg" type="light" class="bg-light">
+  <div>
+     <b-navbar toggleable="lg" type="light" class="backg-black">
        <b-navbar-nav>
         <b-navbar-brand class="logo" @click="$router.push('/').catch(()=>{})">NavBar</b-navbar-brand>
        </b-navbar-nav>
@@ -9,11 +10,11 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item-dropdown  text="Movies" right>
-                <b-dropdown-item  @click="$router.push('/movies/popular').catch(()=>{})">전체</b-dropdown-item>
+                <b-dropdown-item @click="$router.push('/movies/popular').catch(()=>{})">전체</b-dropdown-item>
                 
           </b-nav-item-dropdown>
 
-          <b-nav-item @click="$router.push('/community').catch(()=>{})">Community</b-nav-item>
+          <b-nav-item @click="$router.push({name: 'AllCommunity'}).catch(()=>{})">Community</b-nav-item>
         </b-navbar-nav>
         
         <b-navbar-nav v-if="!isLogin">
@@ -65,6 +66,8 @@
         </div>
     </b-sidebar>
     </b-navbar>
+
+  </div>
 </template>
 
 <script>
@@ -101,7 +104,10 @@ export default {
       this.$modal.show(LoginModal, 
           {prpos: null}, 
           { name: 'LoginModal',
-            draggable: true
+            draggable: true,
+            width: '500px',
+            height: 'auto',
+            scrollable: true
           }
         )
     },
@@ -143,5 +149,13 @@ export default {
 
 .close{
   height: fit-content;
+}
+
+.backg-black {
+  background-color: white;
+}
+
+.text-white {
+  color: white;
 }
 </style>

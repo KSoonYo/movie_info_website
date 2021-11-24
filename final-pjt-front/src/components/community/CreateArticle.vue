@@ -1,5 +1,7 @@
 <template>
-  <button @click="communityCreate"> 글 작성하기 </button>
+  <div class="d-flex justify-content-end">
+    <button class="btn my-button my-3" @click="communityCreate"> 글 작성하기 </button>
+  </div>
 </template>
 
 <script>
@@ -19,6 +21,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.my-button {
+  background-color: rgb(111, 74, 142);
+  color: white;
+}
 
 </style>

@@ -43,7 +43,10 @@ export default {
       this.$modal.show(LoginModal, 
           {prpos: null}, 
           { name: 'LoginModal',
-            draggable: true
+            draggable: true,
+            width: '500px',
+            height: 'auto',
+            scrollable: true
           })
     }
   }

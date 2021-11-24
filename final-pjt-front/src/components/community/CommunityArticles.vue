@@ -1,11 +1,12 @@
 <template>
-  <section class="overflow-auto">
+  <section class="overflow-auto d-flex flex-column align-items-center">
       <b-table id="my-table" fixed bordered hover 
         :items="items" 
         :fields="fields"
         :per-page="perPage"
         :current-page="currentPage"
         @row-clicked="rowClicked"
+        class="my-bg"
       >
         <template #table-colgroup="scope">
           <col
@@ -99,7 +100,21 @@ export default {
   width: 60%;
 }
 
+thead{
+  color: white;
+}
+
 tbody{
   cursor: pointer;
+  color: white;
+  
+}
+
+tr:hover{
+  background-color: rgb(111, 74, 142);
+}
+.my-bg {
+  background-color: rgb(34, 40, 49);
+  border-color: rgb(6, 92, 179) !important;
 }
 </style>
