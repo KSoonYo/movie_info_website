@@ -13,20 +13,27 @@
 </template>
 
 <script>
-import {timeMark} from '@/utils/datetime'
-// import _ from 'lodash'
+import _ from 'lodash'
 
 export default {
   name: 'likeArticles',
   computed:{
     likeArticles(){
-      return this.$store.state.likeArticles.map(likeArticle=>{
+      // return _.take(_.sortBy(
+      //   this.$store.state.likeArticles.map(likeArticle=>{
+      //   return {
+      //     ...likeArticle,
+      //     created_at : timeMark(likeArticle.created_at),
+      //     updated_at : timeMark(likeArticle.updated_at)
+      //   }
+      // }), 'id').reverse(), 5)
+      return _.take(this.$store.state.likeArticles.map(likeArticle=>{
         return {
           ...likeArticle,
-          created_at : timeMark(likeArticle.created_at),
-          updated_at : timeMark(likeArticle.updated_at)
+          created_at : likeArticle.created_at,
+          updated_at : likeArticle.updated_at
         }
-      })
+      }),5)
     },
 
   }

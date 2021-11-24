@@ -10,6 +10,7 @@
 <script>
 import CommunityArticles from  '@/components/community/CommunityArticles'
 import CreateArticle from '@/components/community/CreateArticle'
+import {timeMark} from '@/utils/datetime'
 
 export default {
   name: 'FreeCommunity',
@@ -29,12 +30,13 @@ export default {
       return this.$store.state.articles.filter(elem=>{
         return elem.category === 'FREE'
       }).map(elem=>{
+        const newTime = timeMark(elem.created_at)
         return {
           id: elem.id,
           '분류': elem.category === "RECOMMEND" ? '추천' : '자유' ,
           '제목': elem.title,
           '작성자': elem.user.nickname,
-          '작성시간' : elem.created_at
+          '작성시간' : newTime
         }
       })
     }

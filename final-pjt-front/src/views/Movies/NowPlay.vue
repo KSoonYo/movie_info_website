@@ -25,7 +25,7 @@ export default {
   },
 
   created(){
-    this.$store.dispatch('setNowPlayMovies')
+    this.$store.dispatch('setNowPlayMovies', 0)
   }
 }
 </script>

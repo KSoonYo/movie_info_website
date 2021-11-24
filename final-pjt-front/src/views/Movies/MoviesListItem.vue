@@ -1,5 +1,6 @@
 <template>
-
+<div>
+  <nav-bar></nav-bar>
   <section class="d-flex flex-column align-items-center container">
     <div class="row w-100">
       <h1 class="col-7 offset-5">영화 상세 페이지</h1>
@@ -36,6 +37,9 @@
                 <td class="col-7">{{ review.content }}</td>
                 <td class="col-1">{{ review.rank === 1 ? '★☆☆☆☆' : review.rank === 2 ? '★★☆☆☆' : review.rank === 3 ? '★★★☆☆' : review.rank === 4 ? '★★★★☆' : '★★★★★' }}</td>
                 <td class="col-2">{{ review.created_at }}</td>
+                <button v-if="!!createdRevieswByMe.find(myReview=>{
+                    return myReview.id === review.id
+                  })" @click="deleteReview(review.id)" > 삭제 </button>
               </tr>
             </tbody>
           </table>
@@ -56,7 +60,7 @@
     </article>
 
     <!-- 추천 영화 목록  -->
-    <aside class="my-5 container px-0">
+    <article class="my-5 container px-0">
       <div class="row mx-1 px-0">
         <h3 class="col px-0">추천 영화 목록</h3>
       </div>
@@ -65,16 +69,24 @@
           <img class="movie-poster col-2 px-0" :src="recommendMovie.poster_path" alt="" v-for="recommendMovie in recommendMovies" :key="recommendMovie.id">
         </div>
       </div>
-    </aside>
+    </article>
 
   </section>
+
+</div>
+
 </template>
 
 <script>
 import {timeMark} from '@/utils/datetime'
+import NavBar from '@/components/NavBar'
 
 export default {
   name: 'MoviesListItem',
+  components:{
+    NavBar
+  },
+  
   data(){
     return{
       videoURL: this.$store.state.movie.trailer_path,
@@ -112,6 +124,10 @@ export default {
       })
     },
 
+    createdRevieswByMe(){
+      return this.$store.state.myReviews
+    },
+
     recommendMovies(){
       return this.$store.state.recommendMovies
     },
@@ -145,6 +161,11 @@ export default {
 
     createReview(event){
       event.preventDefault()
+      if(this.reviews.find(review=>{ return review.user === this.$store.state.nickname})){
+        alert('리뷰는 한번만 작성하실 수 있습니다.')
+        this.reviewContent = ''
+        return
+      }
       const selectedIndex = event.target[0].options.selectedIndex
       const payload = {
         movieId : this.movie.id,
@@ -153,6 +174,15 @@ export default {
         selectedIndex === 3 ? 4 : 5 
       }
       this.$store.dispatch('createReview', payload)
+      this.reviewContent = ''
+    },
+
+    deleteReview(reviewId){
+      const payload = {
+        movieId : this.movie.id,
+        reviewId 
+      }
+      this.$store.dispatch('deleteReview', payload)
     }
 
   },

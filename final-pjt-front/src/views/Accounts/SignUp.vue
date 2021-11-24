@@ -8,18 +8,27 @@
         <p>
           <label for=""> username</label>
           <input v-model="username" type="text" required>
+          <span v-if="multipleUserNameError"> {{ multipleUserNameError }} </span>
+          <span v-if="usernameAlertStatus"> 입력칸을 채워주세요 </span>
         </p>
         <p>
           <label for=""> nickname</label>
-          <input v-model="nickname" type="text">
+          <input v-model="nickname" type="text" required>
+          <span v-if="multipleNickNameError"> {{ multipleNickNameError }}  </span>
+          <span v-if="!nickname.trim()"> 입력칸을 채워주세요 </span>
         </p>
         <p>
           <label for=""> password</label>
-          <input v-model="password" type="text">
+          <input v-model="password" type="password" required>
+          <span v-if="passwordAlertStatus"> 입력칸을 채워주세요 </span>
+
         </p>
         <p>
           <label for=""> passwordConfirmation</label>
-          <input v-model="passwordConfirmation" type="text">
+          <input v-model="passwordConfirmation" type="password" required>
+          <span v-if="invalidPasswordConfirm" > {{ invalidPasswordConfirm }}  </span>
+          <span v-if="!passwordConfirmation.trim()"> 입력칸을 채워주세요 </span>
+
         </p>
        
         <button>sign up</button>
@@ -30,7 +39,6 @@
 
 <script>
 import NavBar from '@/components/NavBar'
-import axios from 'axios'
 
 export default {
   name: 'SignUp',
@@ -40,6 +48,12 @@ export default {
       nickname: '',
       password: '',
       passwordConfirmation: '',
+
+      usernameAlertStatus: false,
+      passwordAlertStatus: false,
+      invalidPasswordConfirm: '',
+      multipleUserNameError : '',
+      multipleNickNameError : ''
     }
   },
   components:{
@@ -48,17 +62,26 @@ export default {
   methods:{
     createUser(event){
       event.preventDefault()
-      axios.post(`${process.env.VUE_APP_BACK_END_URL}accounts/signup/`, 
-      {
+      if(!this.username.trim()){
+        this.usernameAlertStatus = true
+      } else{
+        this.usernameAlertStatus = false
+      } 
+
+      if (!this.password.trim()) {
+        this.passwordAlertStatus = true
+      } else{
+        this.passwordAlertStatus = false
+      }
+
+
+      this.$store.dispatch('createUser',  {
         username: this.username,
         nickname: this.nickname,
         password: this.password,
-        password_confirmation: this.passwordConfirmation
+        password_confirmation: this.passwordConfirmation,
+        instance : this
       })
-      .then(res=>{
-        console.log(res)
-      })
-
     }
   }
 }

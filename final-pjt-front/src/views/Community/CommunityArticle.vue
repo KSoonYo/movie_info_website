@@ -6,17 +6,18 @@
     <img v-if="article.image" :src="`http://127.0.0.1:8000${article.image}`" alt="이미지">
     <p>작성시간: {{ article.created_at }}  </p>
     <p>수정시간: {{ article.updated_at }}  </p>
-    <p>작성자 아이디: {{ article.user }}  </p>
+    <p>작성자: {{ article.user }}  </p>
     <button @click="likeArticle" v-if="isLogin && !likeStatus ">추천</button>
     <button @click="disLikeArticle" v-else-if="isLogin && likeStatus">추천 취소</button> 
     <span> {{ recommendUsers }} 명이 이 글을 추천합니다. </span>
     <br>
     <button 
+    v-if="createdByMeForArticle"
     @click="updateArticle" 
     >
     수정
     </button>
-    <button @click="deleteArticle">삭제</button>
+    <button v-if="createdByMeForArticle" @click="deleteArticle">삭제</button>
 
     <article>
       <h2>댓글 목록</h2>
@@ -25,7 +26,10 @@
         <span> 작성 시간: {{ comment.created_at }} </span>
         <p>
           댓글: {{ comment.content }} 
-          <button class="d-inline" @click="deleteComment(comment)"> 댓글 삭제 </button>
+          <button  v-if="!!createdCommentsByMe.find(myComment=>{
+            return myComment.id === comment.id
+            })" 
+          class="d-inline" @click="deleteComment(comment)"> 댓글 삭제 </button>
         </p>
       </div>
       <form @submit="createComment">
@@ -37,6 +41,9 @@
 </template>
 
 <script>
+import {timeMark} from '@/utils/datetime'
+
+
 export default {
   name: 'CommunityArticle',
   data(){
@@ -62,6 +69,7 @@ export default {
         content: this.commentContent 
       }
       this.$store.dispatch('createComment', payload)
+      this.commentContent = ''
     },
 
     deleteComment(comment){
@@ -86,13 +94,31 @@ export default {
 
   computed:{
     article(){
-      return this.$store.state.article
+      return {
+        ...this.$store.state.article,
+        created_at: timeMark(this.$store.state.article.created_at),
+        updated_at: timeMark(this.$store.state.article.updated_at)
+      } 
     },
     comments(){
-      return this.$store.state.comments
+      return this.$store.state.comments.map(comment=>{
+        return {
+          ...comment,
+          created_at : timeMark(comment.created_at)
+        }
+      })
     },
 
-    
+    createdByMeForArticle(){
+      return !!this.$store.state.myArticles.find(myArticle=>{
+        return myArticle.id === this.article.id
+      })
+    },
+
+    createdCommentsByMe(){
+      return this.$store.state.myComments
+    },
+
     likeStatus(){
       return this.$store.state.likeArticles.find(elem=>{
         return elem.id === this.article.id

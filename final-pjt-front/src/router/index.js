@@ -25,7 +25,7 @@ import MoviesList from '../views/Movies/MoviesList'
 import MoviesListItem from '@/views/Movies/MoviesListItem'
 import NowPlay from '@/views/Movies/NowPlay'
 import Popular from '@/views/Movies/Popular'
-
+import NowMovie from '@/views/Movies/NowMovie'
 Vue.use(VueRouter)
 
 const routes = [
@@ -55,10 +55,18 @@ const routes = [
   },
 
   {
-    path:'/movies/detail/',
+    path:'/movies/popular/detail/',
     name: 'MoviesListItem',
     component: MoviesListItem
   },
+
+  {
+    path:'/movies/now-play/detail/',
+    name: 'NowMovie',
+    component: NowMovie
+  },
+
+  
 
 
   // Community routing mapping

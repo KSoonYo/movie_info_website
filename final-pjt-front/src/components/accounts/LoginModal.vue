@@ -3,12 +3,16 @@
      <aside>이미지</aside>
       <section class="d-flex flex-column">
         <h1>Login</h1>
+        <p v-if="invalidationStatus">로그인 실패실패</p>
         <!-- 부트스트랩 login form 사용 예정 -->
         <form @submit="toLogin">
-          <input type="text" v-model="username">
+          <input :class="{'invalid-alert': usernameAlertStatus}" type="text" v-model="username">
+          <span v-if="usernameAlertStatus"> 아이디를 입력해주세요 </span>
           <br>
-          <input type="text" v-model="password">
+          <input :class="[{'invalid-alert': passwordAlertStatus}]"  type="password" v-model="password">
+          <span v-if="passwordAlertStatus"> 비밀번호를 입력해주세요 </span>
           <br>
+          
           <button>login</button>
         </form>
         <form @submit="toSignUp">
@@ -26,22 +30,36 @@ export default {
     return{
       username: '',
       password: '',
+      usernameAlertStatus: false,
+      passwordAlertStatus: false,
+      invalidationStatus : false,
     }
   },
 
   methods:{
     toLogin(event){
       event.preventDefault()
-      if(!this.username.trim() || !this.password.trim()){
-        alert('빈 항목을 채워주세요.')
+      if(!this.username.trim()){
+        this.usernameAlertStatus = true
+      } else{
+        this.usernameAlertStatus = false
+      } 
+
+      if (!this.password.trim()) {
+        this.passwordAlertStatus = true
+      } else{
+        this.passwordAlertStatus = false
+      }
+
+      if(this.usernameAlertStatus || this.passwordAlertStatus){
         return
       }
 
       const payload = {
         username : this.username,
-        password : this.password
+        password : this.password,
+        instance: this
       }
-      this.$emit('close')
       this.$store.dispatch('getToken', payload)
     },
     
@@ -55,5 +73,7 @@ export default {
 </script>
 
 <style>
-
+.invalid-alert{
+  border: 5px solid rgba(192, 36, 36, 0.856);
+}
 </style>

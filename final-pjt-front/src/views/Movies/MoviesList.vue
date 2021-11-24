@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav-bar></nav-bar>
+    <nav-bar @search-content="search"></nav-bar>
     <section class="container">
       <h1>영화 리스트</h1>
       <router-link :to="{name: 'NowPlay'}"> 최신 활동사진관 </router-link>
@@ -17,6 +17,20 @@ export default {
   name: 'MoviesList',
   components: {
     NavBar
+  },
+  
+  data(){
+    return{
+      searchTarget : ''
+    }
+  },
+
+  methods:{
+    search(nextTo){
+      console.log('다음 경로 컴포넌트', nextTo)
+      console.log('쿼리 파라미터', this.$store.state.searchKeyWord)
+      this.$router.push({name: nextTo, query:{searchKeyWord: this.$store.state.searchKeyWord }}) // 검색 키워드를 가지고 이동
+    }
   },
 
 

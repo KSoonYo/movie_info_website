@@ -29,8 +29,8 @@
         </b-navbar-nav>
       
         <b-navbar-nav>
-          <b-nav-form>
-            <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+          <b-nav-form @submit="search">
+            <b-form-input v-model="searchContent" size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
           </b-nav-form>
         </b-navbar-nav>
 
@@ -47,23 +47,21 @@
         <div class="px-3 py-2">
           <b-img src="https://picsum.photos/500/500/?image=54" width="100px" fluid thumbnail></b-img>
           <p>
-            <router-link :to="{name: 'Profile'}">좋아요 한 영화</router-link>
+            <router-link :to="{name: 'likeMovies'}">좋아요 한 영화</router-link>
           </p>
           <p>
-            <router-link :to="{name: 'Profile'}">내가 쓴 게시글</router-link>
+            <router-link :to="{name: 'myArticles'}">내가 쓴 게시글</router-link>
           </p>
           <p>
-            <router-link :to="{name: 'Profile'}">내가 쓴 리뷰</router-link>
+            <router-link :to="{name: 'myReviews'}">내가 쓴 리뷰</router-link>
           </p>
           <p>
-            <router-link :to="{name: 'Profile'}">내가 쓴 댓글</router-link>
+            <router-link :to="{name: 'myComments'}">내가 쓴 댓글</router-link>
           </p>
           <p>
-            <router-link :to="{name: 'Profile'}">추천을 누른 게시글</router-link>
+            <router-link :to="{name: 'likeArticles'}">추천을 누른 게시글</router-link>
           </p>
-          <p>
-            <router-link :to="{name: 'Profile'}">추천 영화</router-link>
-          </p>
+      
         </div>
     </b-sidebar>
     </b-navbar>
@@ -76,7 +74,8 @@ export default {
   name: 'NavBar',
   data(){
     return{
-      hideModal: true
+      hideModal: true,
+      searchContent: ''
     }
   },
   components:{
@@ -117,8 +116,23 @@ export default {
       this.$store.commit('DELETE_TOKEN')
       this.$store.commit('DELETE_USER_INFO')
       this.$router.push({name: 'Index'}).catch(()=>{})
+    },
+
+    search(event){
+      event.preventDefault()
+      console.log('다음에 가야 할 컴포넌트 이름', this.$route.name)
+
+      const nextTo = this.$route.name
+
+      this.$store.commit('SET_SEARCH_KEY', this.searchContent)
+      this.$emit('search-content', nextTo)
     }
   },
+
+  created(){
+    // console.log(this.$route.name)
+    // 현재 루트에 있는 공간의 이름 얻기
+  }
 } 
 </script>
 

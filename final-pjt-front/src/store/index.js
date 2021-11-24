@@ -23,6 +23,9 @@ export default new Vuex.Store({
     })
   })],
   state: {
+    // validation
+    // validationStatus: true,
+
     // User
     accessToken : '',
     nickname: '',
@@ -35,6 +38,9 @@ export default new Vuex.Store({
     pagePerSize : 6,
     // Movie
     movie: '',
+    nowPlay: {genre_id: []},
+    searchKeyWord : '',
+    // nowPlay: '',
     moviesTotal: [],
     nowPlayMovies : [],
     popularMovies: [],
@@ -51,7 +57,6 @@ export default new Vuex.Store({
     loginStatus(state){
       return !!state.accessToken
     },
-
 
     isSuperUser(state){
       return JSON.parse(atob(state.accessToken.split('.')[1])).is_superuser
@@ -73,6 +78,10 @@ export default new Vuex.Store({
 
     },
 
+    // SET_VALIDATION_STATUS(state, status){
+    //   state.validationStatus = status
+    // },
+    
     DELETE_TOKEN(state){
       state.accessToken = ''
       
@@ -96,9 +105,21 @@ export default new Vuex.Store({
 
     // },
 
+    // 검색어 셋팅
+    SET_SEARCH_KEY(state, searchKey){
+      state.searchKeyWord = searchKey
+    },
+
+
     // 현재 상영 중인 영화 
     SET_NOW_MOVIES(state, newMovies){
       state.nowPlayMovies = newMovies
+    },
+
+    // 현재 상영 중인 단일 영화
+    SET_NOW_PLAY(state, nowMovie){
+      state.nowPlay = nowMovie
+      console.log('단일 상영 영화 상태 체크', state.nowPlay)
     },
 
     // 인기 영화
@@ -120,6 +141,17 @@ export default new Vuex.Store({
     // 리뷰 작성
     CREATE_REVIEW(state, newReview){
       state.reviews.push(newReview)
+      state.myReviews.push(newReview)
+    },
+
+    // 리뷰 삭제
+    DELETE_REVIEW(state, deletedReviewId){
+      state.reviews = state.reviews.filter(review=>{
+        return review.id !== deletedReviewId
+      })
+      state.myReviews = state.myReviews.filter(myReview=>{
+        return myReview.id !== deletedReviewId
+      })
     },
 
     GET_MOVIE(state, movieData){
@@ -217,6 +249,7 @@ export default new Vuex.Store({
     // 댓글 생성
     CREATE_COMMENT(state, comment){
       state.comments.push(comment)
+      state.myComments.push(comment)
     },
 
     // 댓글 삭제
@@ -224,26 +257,85 @@ export default new Vuex.Store({
       state.comments = state.comments.filter(comment=>{
         return comment.id !== commentId
       })
+      state.myComments = state.myComments.filter(myComment=>{
+        return myComment.id !== commentId
+      })
+      
     }
 
   },
 
   actions: {
+
+    // 회원 생성
+    // 회원 생성 후 로그인 상태 유지
+    createUser({dispatch}, payload){
+      axios.post(`accounts/signup/`, 
+      {
+        username: payload.username,
+        nickname: payload.nickname,
+        password: payload.password,
+        password_confirmation: payload.password_confirmation
+      })
+      .then(()=>{
+        const loginPayload = {
+          username: payload.username,
+          password: payload.password,
+        }
+        dispatch('getToken', loginPayload)
+      })
+      .catch((err)=>{
+        console.log(err.response)
+        if ( err.response.data.username){
+          payload.instance.multipleUserNameError = '' + err.response.data.username
+        } else{
+          payload.instance.multipleUserNameError = ''
+        }
+
+        if ( err.response.data.nickname){
+          payload.instance.multipleNickNameError = '' + err.response.data.nickname
+        } else{
+          payload.instance.multipleNickNameError = ''
+        }
+
+        if (err.response.data.password){
+          payload.instance.invalidPasswordConfirm = '' + err.response.data.password
+        } else {
+          payload.instance.invalidPasswordConfirm = ''
+        }
+      })
+    },
+
+
     // 로그인 시 토큰 획득
-    getToken({commit, dispatch}, {username, password}){
-      // drf 문서 참고해서 token부분 받기
-      // superuser인지 체크
-      // username, password 공백 체크
-      axios.post('/api/token/', {username, password})
+    getToken({commit, dispatch}, payload){
+      axios.post('/api/token/', {
+        username: payload.username,
+        password: payload.password
+      })
         .then(response=>{
           localStorage.setItem('accessToken', response.data.access)
           commit('SET_TOKEN', response.data.access)
         })
         .then(()=>{
-          dispatch('getProfile', username)
+          dispatch('getProfile', payload.username)
+          if(payload.instance){
+            payload.instance.$emit('close')
+          }
+        })
+        .catch(()=>{
+          // dispatch('getValidationStatus', false)
+          if(payload.instance){
+            payload.instance.invalidationStatus = true
+          }
         })
        
     },
+
+    // 로그인, 회원가입 유효성 오류
+    // getValidationStatus({commit}, status){
+    //   commit('SET_VALIDATION_STATUS', status)
+    // },
 
     // 유저 정보 조회
     getProfile({commit, state}, username){
@@ -257,7 +349,7 @@ export default new Vuex.Store({
           commit('SET_PROFILE', res.data)
         })
         .then(()=>{
-          router.push({name: 'Popular'}).catch(()=>{})
+          router.push({name: 'NowPlay'}).catch(()=>{})
         })
     },
 
@@ -272,21 +364,56 @@ export default new Vuex.Store({
     // },
 
     // 현재 상영 중인 영화 목록
-    setNowPlayMovies({commit}){
-      axios.get('movies/play/')
+    setNowPlayMovies({commit, dispatch}, movieId){
+      if(movieId){
+        axios.get('movies/play/')
         .then(res=>{
           commit('SET_NOW_MOVIES', res.data)
         })
+          .then(()=>{
+            dispatch('getNowMovie', movieId)
+          })  
+      } else {
+        axios.get('movies/play/')
+          .then(res=>{
+            commit('SET_NOW_MOVIES', res.data)
+          })
+      }
+    },
+
+    // 현재 상영 중인 단일 영화 조회
+    getNowMovie({commit, state}, movieId){
+      console.log('getNowMovie 실행')
+      console.log('nowPlayMovies 상태 체크', state.nowPlayMovies)
+      const selectedMovie = state.nowPlayMovies.find(NowMovie=>{
+        return NowMovie.id == movieId
+      })
+      // commit('SET_NOW_MOVIE', selectedMovie)
+        console.log('commit 실행')
+        console.log('selectedMovie', selectedMovie)
+        commit('SET_NOW_PLAY', selectedMovie)
+        router.push({name: 'NowMovie', query: {movieId : movieId}}).catch(()=>{})
+      
     },
 
     
     // 인기 영화 목록 조회
-    setPopularMovies({commit}, pageNum){
-      const pageParam = pageNum ? `?page=${pageNum}` : ''
-      axios.get(`/movies/${pageParam}`)
+    setPopularMovies({commit}, payload){
+      const pageParam = payload.pageNum ? `?page=${payload.pageNum}` : ''
+      if(payload.searchKeyWord){
+        console.log('검색 영화 목록 출력')
+        axios.get('/movies/total/')
         .then(res=>{
-          commit('SET_POPULAR_MOVIES', res.data.results)
+          // console.log('검색 response', res.data)
+          commit('SET_POPULAR_MOVIES', res.data)
         })
+      } else {
+        console.log('일반 영화 목록 출력')
+        axios.get(`/movies/${pageParam}`)
+          .then(res=>{
+            commit('SET_POPULAR_MOVIES', res.data.results)
+          })
+      }
     },
 
     // 단일 영화 조회
@@ -304,7 +431,6 @@ export default new Vuex.Store({
     getRecommendMovies({commit}, movieId){
       axios.get(`/movies/${movieId}/recommend/`)
         .then(res=>{
-          console.log(res)
           commit('SET_RECOMMEND_MOVIES', res.data)
         })
     },
@@ -334,6 +460,18 @@ export default new Vuex.Store({
         console.log(error)
         alert('로그인이 필요합니다!')
       })
+    },
+
+    // 리뷰 삭제하기
+    deleteReview({commit, state}, payload){
+      axios.delete(`/movies/${payload.movieId}/review/${payload.reviewId}/`, {
+        headers: {
+          Authorization: `Bearer ${state.accessToken}`
+        }
+      }).then(()=>{
+        commit('DELETE_REVIEW', payload.reviewId)
+      })
+
     },
 
     // 좋아요
@@ -481,8 +619,8 @@ export default new Vuex.Store({
           Authorization: `Bearer ${state.accessToken}`
         }
       }).then(res=>{
-        commit('CREATE_COMMENT', res.data)
-  
+        console.log('댓글 생성 시 response', res.data)
+        commit('CREATE_COMMENT', res.data)  
       })
     },
 
