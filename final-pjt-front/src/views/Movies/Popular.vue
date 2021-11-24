@@ -1,10 +1,11 @@
 <template>
   <div>
-    <b-container class="p-4">
-      <b-row class="my-3">
-        <b-col class="px-3 py-3" v-for="popularMovie in popularMovies"
+    <b-container class="pt-4 pb-0 container">
+      <b-row class="row">
+        <b-col class="col-3 d-flex flex-column align-items-center" v-for="popularMovie in popularMovies"
         :key="popularMovie.id">
           <b-img style="height: 15vw;" thumbnail :src="popularMovie.poster_path" alt="Poster" class="pointer" @click="getMovie(popularMovie.id)"></b-img>
+          <p class="mb-5">{{ popularMovie.title }}</p>
         </b-col>
       </b-row>
     </b-container>

@@ -35,7 +35,7 @@ export default new Vuex.Store({
     myArticles: [],
     myReviews: [],
    
-    pagePerSize : 6,
+    pagePerSize : 8,
     // Movie
     movie: '',
     nowPlay: {genre_id: []},
@@ -383,10 +383,10 @@ export default new Vuex.Store({
             console.log('현재 상영 영화 목록 response', res.data)
             commit('SET_NOW_MOVIES', res.data)
           })
-          .then(()=>{
-            console.log('현재 상영 영화 목록으로 이동!')
-            router.push({name: 'NowPlay'}).catch(()=>{})
-          })
+          // .then(()=>{
+          //   console.log('현재 상영 영화 목록으로 이동!')
+          //   router.push({name: 'NowPlay'}).catch(()=>{})
+          // })
       }
     },
 
@@ -426,9 +426,9 @@ export default new Vuex.Store({
             commit('SET_POPULAR_MOVIES', res.data.results)
             commit('SET_SEARCH_KEY', '')
           })
-          .then(()=>{
-            router.push({name: 'Popular' }).catch(()=>{})
-          })
+          // .then(()=>{
+          //   router.push({name: 'Popular' }).catch(()=>{})
+          // })
       }
     },
 
