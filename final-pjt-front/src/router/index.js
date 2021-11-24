@@ -26,6 +26,7 @@ import MoviesListItem from '@/views/Movies/MoviesListItem'
 import NowPlay from '@/views/Movies/NowPlay'
 import Popular from '@/views/Movies/Popular'
 import NowMovie from '@/views/Movies/NowMovie'
+import TotalMovie from '@/views/Movies/TotalMovie'
 Vue.use(VueRouter)
 
 const routes = [
@@ -50,7 +51,14 @@ const routes = [
         path: '/movies/popular',
         name: 'Popular',
         component: Popular
-      }
+      },
+
+      {
+        path: '/movies/total',
+        name: 'TotalMovie',
+        component: TotalMovie
+      },
+
     ]
   },
 

@@ -4,12 +4,12 @@
     <section class="container">
       <h1 class="col-2 offset-5 text-center my-4">영화</h1>
       <div class="row">
-        <button @click="toNowPlay" class="col-1 offset-4  rounded"
+        <!-- <button @click="toNowPlay" class="col-1 offset-4  rounded"
         :class="[{'bg-dark': !isPopular}, {'text-white': !isPopular}]"
         > 개봉중 </button>
         <button @click="toPopular" class="col-1 offset-2  rounded"
         :class="[{'bg-dark': isPopular}, {'text-white': isPopular}]"
-        > 인기 </button>
+        > 인기 </button> -->
         <router-view></router-view>
       </div>
     </section>
@@ -22,7 +22,7 @@ import NavBar from '@/components/NavBar'
 export default {
   name: 'MoviesList',
   components: {
-    NavBar
+    NavBar,
   },
   
   data(){
