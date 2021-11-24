@@ -2,12 +2,11 @@
 
   <section class="d-flex flex-column align-items-center container">
     <div class="row w-100">
-      <h1 class="col-7 offset-5">영화 상세 페이지</h1>
-      <button class="offset-11 col-1" @click="$router.go(-1)">뒤로가기</button>
+      <button class="offset-11 col-1 btn mt-5 mb-2" @click="$router.go(-1)" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
     </div>
     <article class="row">
       <iframe :src="movie.trailer_path" frameborder="0" class="col-12 mb-5" style="width: 100vw; height: 40vw;"></iframe>
-      <img class="col-4" :src="movie.poster_path" alt="영화포스터">
+      <img class="col-4" :src="movie.poster_path" alt="영화포스터" style="height: 30vw;">
       <div class="col-8">
         <h2>제목: {{ movie.title}} </h2>
         <h3>원제: {{ movie.original_title || movie.title }} </h3>
@@ -15,8 +14,8 @@
         <p class="mt-3"> 상영시간: {{movie.runtime}}분 </p>
         <p> 영화 평점: {{movie.vote_average}} </p>
         <span> {{ likeUsers }} 명이 이 영화를 좋아합니다. </span>
-        <button @click="pressLikeButton" v-if="isLogin && !likeStatus">좋아요</button> 
-        <button  @click="pressDislikeButton" v-else-if="isLogin && likeStatus">좋아요 취소</button>
+        <button @click="pressLikeButton" v-if="isLogin && !likeStatus" class="btn text-primary"><i class="far fa-thumbs-up"></i></button> 
+        <button @click="pressDislikeButton" v-else-if="isLogin && likeStatus" class="btn text-primary"><i class="fas fa-thumbs-up"></i></button>
         <p class="mt-3">{{ movie.overview }} </p>
       </div>
       <!-- <iframe :src="videoURL" frameborder="0"></iframe> -->
@@ -25,33 +24,45 @@
 
     <!-- 리뷰 -->
     <article class="w-100 mt-5 mx-0 px-0">
-      <h2>댓글</h2>
+      <h2>리뷰</h2>
       <div class="px-0 container">
 
 
-          <table class="text-white row mx-0 pb-2" style="">
+          <table class="text-white mx-0 pb-2 container">
             <tbody class="px-0">
               <tr v-for="review in reviews" :key="review.id">
-                <th class="col-2">{{ review.user }}</th>
-                <td class="col-7">{{ review.content }}</td>
+                <td class="col-1 ps-3">{{ review.user }}</td>
                 <td class="col-1">{{ review.rank === 1 ? '★☆☆☆☆' : review.rank === 2 ? '★★☆☆☆' : review.rank === 3 ? '★★★☆☆' : review.rank === 4 ? '★★★★☆' : '★★★★★' }}</td>
-                <td class="col-2">{{ review.created_at }}</td>
+                <td class="col-8 ps-5">{{ review.content }}</td>
+                <td class="col-1">{{ review.created_at }}</td>
               </tr>
             </tbody>
           </table>
 
 
       </div>
-      <form @submit="createReview" v-if="isLogin" class="mx-1">
-        <select v-model="rank" name="rank" id="rank">
-          <option value="1">★☆☆☆☆</option>
-          <option value="2">★★☆☆☆</option>
-          <option value="3">★★★☆☆</option>
-          <option value="4">★★★★☆</option>
-          <option value="5">★★★★★</option>
-        </select>
-        <input type="text" v-model="reviewContent">
-        <button>작성</button>
+      <form @submit="createReview" v-if="isLogin" class="mt-3">
+        <div>
+          <select v-model="rank" name="rank" id="rank" style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);">
+            <option value="1">★☆☆☆☆</option>
+            <option value="2">★★☆☆☆</option>
+            <option value="3">★★★☆☆</option>
+            <option value="4">★★★★☆</option>
+            <option value="5">★★★★★</option>
+          </select>
+        </div>
+        <div class="mt-2">
+          <b-form-textarea
+            id="textarea"
+            v-model="reviewContent"
+            placeholder="(최대 100자)"
+            rows="3"
+            max-rows="4"
+            style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);"
+          >
+          </b-form-textarea>
+        </div>
+        <button class="mt-2 btn" style="background-color: rgb(111, 74, 142); color: white;">작성</button>
       </form>
     </article>
 
@@ -69,8 +80,9 @@
 
   </section>
 </template>
-
+<script src="https://kit.fontawesome.com/7e32e07830.js" crossorigin="anonymous"></script>
 <script>
+
 import {timeMark} from '@/utils/datetime'
 
 export default {
