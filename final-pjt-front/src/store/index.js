@@ -203,7 +203,10 @@ export default new Vuex.Store({
       const newMyArticle = {
         id: newArticle.id,
         title: newArticle.title,
+        content: newArticle.content,
         category: newArticle.category,
+        created_at: newArticle.created_at,
+        updated_at: newArticle.updated_at,
         image: newArticle.image
       }
       state.myArticles.push(newMyArticle)
