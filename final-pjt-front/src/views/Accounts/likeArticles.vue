@@ -17,8 +17,6 @@
 </template>
 
 <script>
-import _ from 'lodash'
-import {timeMark} from '@/utils/datetime'
 
 
 export default {
@@ -33,13 +31,13 @@ export default {
       //     updated_at : timeMark(likeArticle.updated_at)
       //   }
       // }), 'id').reverse(), 5)
-      return _.take(this.$store.state.likeArticles.map(likeArticle=>{
+      return this.$store.state.likeArticles.map(likeArticle=>{
         return {
           ...likeArticle,
-          created_at : timeMark(likeArticle.created_at),
-          updated_at : timeMark(likeArticle.updated_at)
+          created_at : likeArticle.created_at,
+          updated_at : likeArticle.updated_at
         }
-      }),5)
+      })
     },
 
   },

@@ -3,7 +3,7 @@
     <!-- <img class="d-block mx-auto" src="../assets/logo.png" alt="이미지로고"> -->
     <div class="index-logo">
       <p class="pt-2">
-        <span class="index-text">심夜</span>
+        <span class="index-text">夜심</span>
       </p>
       <p>
         <span class="index-text">영화관</span>

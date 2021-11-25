@@ -1,8 +1,12 @@
 <template>
   <div class="backg-black py-2">
-    <b-navbar toggleable="lg" type="light" class="container">
+    <b-navbar toggleable="lg" type="light" class="container bar">
       <b-navbar-nav>
-        <b-navbar-brand class="logo text-white ms-2 me-5" @click="$router.push({name: 'TotalMovie'}).catch(()=>{})">NavBar</b-navbar-brand>
+        <b-navbar-brand class="logo text-white ms-2 me-5 text-center" @click="$router.push({name: 'TotalMovie'}).catch(()=>{})">
+           <span class="logo-text">夜심</span>
+           <br>
+           <span class="logo-text">영화관</span>      
+        </b-navbar-brand>
       </b-navbar-nav>
 
       <b-navbar-toggle target="nav-collapse" style="background-color: white;"></b-navbar-toggle>
@@ -65,7 +69,7 @@
         <template v-slot:default="{hide}">
           <div class="px-3 py-2 ms-3 ">
             <div class="d-flex justify-content-center">
-              <i class="far fa-user-circle my-profile"></i>
+              <i class="far fa-user-circle my-profile mt-5"></i>
             </div>
             <b-nav vertical class="mt-3">
               <b-nav-item @click="hide" class="my-2">
@@ -179,6 +183,17 @@ export default {
 <style>
 .logo{
   cursor: pointer;
+  text-align: center;
+  border: 0.2rem solid #fff; 
+  border-radius: 2rem; padding: 0.4em; 
+  box-shadow: 0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #4e3957, 0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
+}
+
+
+
+.logo-text{
+  text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px rgb(231, 44, 200),
+      0 0 80px rgb(221, 29, 29), 0 0 90px rgba(232, 7, 240, 0.89), 0 0 100px rgb(230, 21, 195), 0 0 150px #0fa;
 }
 
 .close{

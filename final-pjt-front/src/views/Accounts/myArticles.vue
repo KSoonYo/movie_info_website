@@ -20,14 +20,14 @@ export default {
   name: 'myArticles',
   computed: {
     myArticles(){
-      return _.take(_.sortBy(
+      return _.sortBy(
         this.$store.state.myArticles.map(myArticle=>{
         return {
           ...myArticle,
           created_at : timeMark(myArticle.created_at),
           updated_at : timeMark(myArticle.updated_at)
         }
-      }), 'id').reverse(), 5)
+      }), 'id')
     }
   }
   

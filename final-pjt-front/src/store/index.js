@@ -23,8 +23,6 @@ export default new Vuex.Store({
     })
   })],
   state: {
-    // validation
-    // validationStatus: true,
 
     // User
     accessToken : '',
@@ -331,11 +329,6 @@ export default new Vuex.Store({
         })
        
     },
-
-    // 로그인, 회원가입 유효성 오류
-    // getValidationStatus({commit}, status){
-    //   commit('SET_VALIDATION_STATUS', status)
-    // },
 
     // 유저 정보 조회
     getProfile({commit, state}, username){
