@@ -478,9 +478,9 @@ export default new Vuex.Store({
       }).then(res=>{
         commit('CREATE_REVIEW', res.data)
       })
-      .catch(error=>{
-        console.log(error)
-        alert('로그인이 필요합니다!')
+      .catch(()=>{
+        // console.log(error)
+        alert('리뷰를 작성해주세요.')
       })
     },
 

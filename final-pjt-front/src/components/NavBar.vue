@@ -48,33 +48,51 @@
 
           <b-navbar-nav v-if="isLogin" class="d-none d-lg-block col-lg-1">
             <b-nav-item>
-              <img v-b-toggle.sidebar-right src="../assets/logo.png" width="50px" height="30px" alt="">
+              <i v-b-toggle.sidebar-no-header class="far fa-user-circle my-logo"></i>
             </b-nav-item>
           </b-navbar-nav>
       </b-collapse>
       <login-modal v-if="!hideModal"></login-modal>
         
       
-      <b-sidebar id="sidebar-right" width="250px" title="프로필 페이지" right shadow>
-        <div class="px-3 py-2">
-          <b-img src="https://picsum.photos/500/500/?image=54" width="100px" fluid thumbnail></b-img>
-          <p>
-            <router-link :to="{name: 'likeMovies'}">좋아요 한 영화</router-link>
-          </p>
-          <p>
-            <router-link :to="{name: 'myArticles'}">내가 쓴 게시글</router-link>
-          </p>
-          <p>
-            <router-link :to="{name: 'myReviews'}">내가 쓴 리뷰</router-link>
-          </p>
-          <p>
-            <router-link :to="{name: 'myComments'}">내가 쓴 댓글</router-link>
-          </p>
-          <p>
-            <router-link :to="{name: 'likeArticles'}">추천을 누른 게시글</router-link>
-          </p>
-      
-        </div>
+      <b-sidebar id="sidebar-no-header" 
+      width="250px" 
+      title="프로필 페이지"
+      aria-labelledby="sidebar-no-header-title" 
+      bg-variant="secondary"
+      no-header
+      right shadow>
+        <template v-slot:default="{hide}">
+          <div class="px-3 py-2 ms-3 ">
+            <div class="d-flex justify-content-center">
+              <i class="far fa-user-circle my-profile"></i>
+            </div>
+            <b-nav vertical class="mt-3">
+              <b-nav-item @click="hide" class="my-2">
+                <router-link :to="{name: 'likeMovies'}" class="text-decoration-none text-dark like-movies"> <b-icon class="mx-2" icon="film"></b-icon> 좋아요 한 영화</router-link>
+              </b-nav-item>
+              <b-nav-item @click="hide" class="my-2">
+                <router-link :to="{name: 'likeArticles'}" class="text-decoration-none text-dark like-articles"> <b-icon class="mx-2" icon="hand-thumbs-up"></b-icon> 추천을 누른 게시글</router-link>
+              </b-nav-item>
+              <b-nav-item @click="hide" class="my-2">
+                <router-link :to="{name: 'myArticles'}" class="text-decoration-none text-dark my-articles">  <b-icon class="mx-2" icon="brush"></b-icon> 내가 쓴 게시글</router-link>
+              </b-nav-item>
+              <b-nav-item @click="hide" class="my-2">
+              <router-link :to="{name: 'myReviews'}" class="text-decoration-none text-dark my-reviews"> <b-icon class="mx-2" icon="journal"></b-icon> 내가 쓴 리뷰</router-link>
+              </b-nav-item>
+              <b-nav-item @click="hide" class="my-2">
+                <router-link :to="{name: 'myComments'}" class="text-decoration-none text-dark my-comments"> <b-icon class="mx-2" icon="chat-left-dots"></b-icon> 내가 쓴 댓글</router-link>
+              </b-nav-item>
+            </b-nav>
+            <div class="container">
+             <div class="row justify-content-center my-2">
+               <b-button @click="hide"> close </b-button>   
+             </div>
+            </div>
+          </div>
+          
+
+        </template>
       </b-sidebar>
     </b-navbar>
 
@@ -189,5 +207,19 @@ export default {
 
 .my-a:hover{
   color: white !important;
+}
+
+.my-logo{
+  font-size: 2rem;
+}
+
+.my-profile{
+  font-size : 7rem;
+}
+
+.like-movies:hover, .like-articles:hover, .my-articles:hover,
+.my-reviews:hover, .my-comments:hover
+{
+  font-weight: bold;
 }
 </style>
