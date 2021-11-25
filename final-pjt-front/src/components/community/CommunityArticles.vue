@@ -1,12 +1,12 @@
 <template>
-  <section class="overflow-auto d-flex flex-column align-items-center">
-      <b-table id="my-table" fixed bordered hover 
+  <section class="overflow-auto d-flex flex-column align-items-center row">
+      <b-table id="my-table" fixed hover 
         :items="items" 
         :fields="fields"
         :per-page="perPage"
         :current-page="currentPage"
         @row-clicked="rowClicked"
-        class="my-bg"
+        class="my-bg p-3"
       >
         <template #table-colgroup="scope">
           <col
@@ -16,12 +16,30 @@
             >
         </template>
       </b-table>
-      <b-pagination
-      v-model="currentPage"
-      :total-rows="rows"
-      :per-page="perPage"
-      aria-controls="my-table"
-    ></b-pagination>
+<!-- 
+      <b-container>
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="rows"
+          :per-page="perPage"
+          aria-controls="my-table"
+          align="center"
+          ></b-pagination>
+      </b-container>
+       -->
+      <b-container 
+        class="pagination-container">
+        <b-pagination 
+        :container-class="'pagination'"
+        :pageClass="'page-item'"
+        :pageLinkClass="'page-link-item'"
+        aria-controls="my-table"
+        align="center"
+        v-model="currentPage"
+        pills :total-rows="rows">
+        </b-pagination>
+      </b-container>
+
 <!-- 
      <b-pagination-nav :link-gen="linkGen"
       v-model="currentPage"
@@ -92,29 +110,73 @@ export default {
 
 <style>
 .category{
-  text-align: center;
-  width: 5%;
+  text-align: center !important;
+  /* grid-column: 1/2; */
 }
 
 .title{
   width: 60%;
+  /* grid-column: 2/5; */
+}
+
+table{
+  border-radius: 15px;
+  border-collapse: unset !important;
 }
 
 thead{
   color: white;
+  border: none !important; 
 }
 
 tbody{
   cursor: pointer;
   color: white;
-  
+ 
 }
 
-tr:hover{
-  background-color: rgb(111, 74, 142);
+tbody > tr:hover{
+  background-color: rgb(211, 209, 212);
+  font-weight: bold;
+  color: black;
+}
+
+.table.b-table.b-table-fixed {
+    table-layout: unset !important;
+}
+
+#my-table{
+  border: none !important;
 }
 .my-bg {
-  background-color: rgb(34, 40, 49);
-  border-color: rgb(6, 92, 179) !important;
+  background-color: rgb(39, 46, 56);
 }
+
+
+
+/* 
+.pagination ul {
+        text-align: right;        
+      }
+      
+     .pagination li {
+          float: right !important;
+        }
+         */
+
+.pagination .page-item {
+        color: black;
+        border: black;
+}
+
+.pagination .page-link {
+        color: white;
+}
+
+.pagination .page-item.active .page-link {
+        color: white;
+        background-color: rgb(111, 74, 142) ;
+        border: 1px solid rgb(111, 74, 142)
+}
+
 </style>

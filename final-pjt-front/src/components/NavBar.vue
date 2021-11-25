@@ -2,7 +2,7 @@
   <div>
      <b-navbar toggleable="lg" type="light" class="backg-black">
        <b-navbar-nav>
-        <b-navbar-brand class="logo" @click="$router.push('/').catch(()=>{})">NavBar</b-navbar-brand>
+        <b-navbar-brand class="logo" @click="$router.push({name: 'TotalMovie'}).catch(()=>{})">NavBar</b-navbar-brand>
        </b-navbar-nav>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -127,6 +127,9 @@ export default {
 
       this.$store.commit('SET_SEARCH_KEY', this.searchContent)
       nextTo === 'Popular' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
+      nextTo === 'TotalMovie' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
+      nextTo === 'MoviesListItem' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
+      nextTo === 'NowMovie' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
       this.$router.push({name: nextTo, query:{searchKeyWord: this.$store.state.searchKeyWord }}).catch(()=>{})
 
     }

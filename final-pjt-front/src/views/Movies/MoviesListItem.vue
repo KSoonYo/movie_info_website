@@ -3,7 +3,7 @@
   <nav-bar></nav-bar>
   <section class="d-flex flex-column align-items-center container">
     <div class="row w-100">
-      <button class="offset-11 col-1 btn mt-5 mb-2" @click="$router.go(-1)" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
+      <button class="offset-11 col-1 btn mt-5 mb-2" @click="$router.push({name: 'Popular'}).catch(()=>{})" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
     </div>
     <article class="row">
       <iframe :src="movie.trailer_path" frameborder="0" class="col-12 mb-5" style="width: 100vw; height: 40vw;"></iframe>
@@ -30,7 +30,7 @@
 
 
           <table class="text-white mx-0 pb-2 container">
-            <tbody class="px-0">
+            <tbody  v-if="reviews.length" class="px-0">
               <tr v-for="review in reviews" :key="review.id">
                 <td class="col-1 ps-3">{{ review.user }}</td>
                 <td class="col-1">{{ review.rank === 1 ? '★☆☆☆☆' : review.rank === 2 ? '★★☆☆☆' : review.rank === 3 ? '★★★☆☆' : review.rank === 4 ? '★★★★☆' : '★★★★★' }}</td>
@@ -39,13 +39,17 @@
                 <button v-if="!!createdRevieswByMe.find(myReview=>{
                     return myReview.id === review.id
                   })" @click="deleteReview(review.id)" > 삭제 </button>
-
               </tr>
             </tbody>
+            <tbody v-else>
+              <td>
+                아직 리뷰가 없습니다.
+              </td>
+            </tbody>
           </table>
-
-
       </div>
+   
+
       <form @submit="createReview" v-if="isLogin" class="mt-3">
         <div>
           <select v-model="rank" name="rank" id="rank" style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);">
@@ -72,13 +76,18 @@
     </article>
 
     <!-- 추천 영화 목록  -->
-    <article class="my-5 container px-0">
-      <div class="row mx-1 px-0">
-        <h3 class="col px-0">추천 영화 목록</h3>
+    <article class="my-5 w-100 px-0">
+      <div class="px-0">
+        <h3 class="px-0">추천 영화 목록</h3>
       </div>
-      <div class="container">
-        <div class="row justify-content-between">
-          <img class="movie-poster col-2 px-0" :src="recommendMovie.poster_path" alt="" v-for="recommendMovie in recommendMovies" :key="recommendMovie.id">
+      <div class="container px-0">
+        <div v-if="recommendMovies.length" class="d-flex justify-content-between">
+          <img @click="getRecommendMovie(recommendMovie.id)" class="movie-poster col-2 px-0" :src="recommendMovie.poster_path" alt="" v-for="recommendMovie in recommendMovies" :key="recommendMovie.id">
+        </div>
+        <div class="my-5" v-else>
+          <p>
+            {{recommendMovies.message }}
+          </p>
         </div>
       </div>
     </article>
@@ -102,10 +111,8 @@ export default {
   
   data(){
     return{
-      videoURL: this.$store.state.movie.trailer_path,
       reviewContent : '',
       rank: 1,
-      likeUsers : this.$store.state.movie.like_users.length
     }
   },
 
@@ -120,6 +127,9 @@ export default {
       return this.$store.state.movie
     },
 
+    videoURL(){
+      return this.$store.state.movie.trailer_path
+    },
 
     likeStatus(){
       return this.$store.state.likeMovies.find(elem=>{
@@ -127,6 +137,9 @@ export default {
       })
     },
 
+    likeUsers(){
+      return this.$store.state.movie.like_users.length
+    },
     reviews(){
      
       return this.$store.state.reviews.map(review=>{
@@ -196,15 +209,19 @@ export default {
         reviewId 
       }
       this.$store.dispatch('deleteReview', payload)
+    },
+
+    getRecommendMovie(movieId){
+      this.$store.dispatch('getMovie', movieId)
+   
     }
 
   },
 
-  // 페이지 렌더링할 때 리뷰 목록 불러오기 + 추천 영화 목록 불러오기
+  // 페이지 렌더링할 때 리뷰 목록 불러오기 + 추천 영화 목록 불러오기 + 현재 영화 정보 요청
   created(){
     this.$store.dispatch('getMovie', this.movie.id)
-    this.$store.dispatch('getReviews', this.movie.id)
-    this.$store.dispatch('getRecommendMovies', this.movie.id)
+  
   }
 
   

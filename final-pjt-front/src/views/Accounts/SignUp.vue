@@ -1,52 +1,48 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <h1>회원가입</h1>
+    <h1 class="text-center mt-5">회원가입</h1>
     <section class="p-3 container rounded mt-3">
       <!-- form 스타일링 필요 -->
-      <div class="col-6 offset-3">
-        <form @submit="createUser" class="my-form p-2 col-12">
+      <div class="col-4 offset-4">
+        <form @submit="createUser" class="my-form p-2 col-12 rounded">
       
         <div class="row my-1 mx-2">
           <label for="username" class="p-0"> 아이디 </label>
           <b-form-input class="p-0 px-2" v-model="username" id="username" type="text" required></b-form-input>
           <p v-if="multipleUserNameError">
-            <span> {{ multipleUserNameError }} </span>
+            <span class="text-danger"> {{ multipleUserNameError }} </span>
           </p>
-          <span v-if="usernameAlertStatus"> 입력칸을 채워주세요 </span>
+          <span class="text-danger" v-if="usernameAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
+        
         <div class="row my-1 mx-2">
-          <label for="nickname" class="col-12"> 닉네임 </label>
-          <div>
-            <input v-model="nickname" id="nickname" type="text" required>
-          </div>
+          <label for="nickname" class="p-0"> 닉네임 </label>
+          <b-form-input class="p-0 px-2" v-model="nickname" id="nickname" type="text" required></b-form-input>
           <p v-if="multipleNickNameError">
-            <span> {{ multipleNickNameError }}  </span>
+            <span class="text-danger"> {{ multipleNickNameError }}  </span>
           </p>
-          <span v-if="nicknameAlertStatus"> 입력칸을 채워주세요 </span>
+          <span class="text-danger" v-if="nicknameAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
+
         <div class="row my-1 mx-2">
-          <label for="password" class="col-12"> 비밀번호 </label>
-          <div>
-            <input v-model="password" id="password" type="password" required>
-          </div>
+          <label for="password" class="p-0"> 비밀번호 </label>
+          <b-form-input class="p-0 px-2" v-model="password" id="password" type="password" required></b-form-input>
           <span v-if="passwordAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
+
         <div class="row my-1 mx-2">
-          <div>
-            <label for="passwordConfrimation"> 비밀번호 확인 </label>
-          </div>
-          <div>
-            <input v-model="passwordConfirmation" id="passwordConfirmation" type="password" required>
-          </div>
+          <label for="passwordConfrimation" class="p-0"> 비밀번호 확인 </label>
+          <b-form-input v-model="passwordConfirmation" class="p-0 px-2" id="passwordConfirmation" type="password" required>
+          </b-form-input>
           <p v-if="invalidPasswordConfirm">
             <span> {{ invalidPasswordConfirm }}  </span>
           </p>
           <span v-if="passwordConfirmAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
   
-       <div class="row my-3 mx-2">
-        <div>
+       <div class="row my-3 mx-2 ">
+        <div class="d-flex justify-content-end px-0">
           <button class="btn my-button">sign up</button>
         </div>
        </div>
@@ -87,7 +83,12 @@ export default {
   methods:{
     createUser(event){
       event.preventDefault()
+
+      this.invalidPasswordConfirm= '',
+      this.multipleUserNameError = '',
+      this.multipleNickNameError = ''
       
+  
       if(!this.username.trim()){
         this.usernameAlertStatus = true
       } else{
@@ -126,6 +127,7 @@ export default {
         password_confirmation: this.passwordConfirmation.trim(),
         instance : this
       })
+     
     }
   }
 }

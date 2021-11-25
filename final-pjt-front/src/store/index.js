@@ -350,7 +350,7 @@ export default new Vuex.Store({
           commit('SET_PROFILE', res.data)
         })
         .then(()=>{
-          router.push({name: 'NowPlay'}).catch(()=>{})
+          router.push({name: 'TotalMovie'}).catch(()=>{})
         })
     },
 
@@ -420,7 +420,6 @@ export default new Vuex.Store({
           router.push({name: 'Popular', query:{searchKeyWord: state.searchKeyWord }}).catch(()=>{})
         })
       } else {
-        console.log('일반 영화 목록 출력')
         axios.get(`/movies/${pageParam}`)
           .then(res=>{
             commit('SET_POPULAR_MOVIES', res.data.results)
@@ -433,10 +432,16 @@ export default new Vuex.Store({
     },
 
     // 단일 영화 조회
-    getMovie({commit}, movieId){
+    getMovie({commit, dispatch}, movieId){
       axios.get(`/movies/${movieId}/`)
       .then(res=>{
         commit('GET_MOVIE', res.data)
+      })
+      .then(()=>{
+        dispatch('getReviews', movieId)
+      })
+      .then(()=>{
+        dispatch('getRecommendMovies', movieId)
       })
       .then(()=>{
         router.push({name: 'MoviesListItem', query: {moiveId : movieId}}).catch(()=>{})
@@ -447,6 +452,7 @@ export default new Vuex.Store({
     getRecommendMovies({commit}, movieId){
       axios.get(`/movies/${movieId}/recommend/`)
         .then(res=>{
+          
           commit('SET_RECOMMEND_MOVIES', res.data)
         })
     },
@@ -507,6 +513,7 @@ export default new Vuex.Store({
           dispatch('getMovie', movie.id)
           dispatch('getRecommendMovies', movie.id)
         })
+        
     },
     
     // 싫어요
