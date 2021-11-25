@@ -2,7 +2,7 @@
   <div>
     <nav-bar></nav-bar>
     <div class="container">
-      <h1 class="col-2 offset-5 text-center">커뮤니티</h1>
+      <h1 class="col-2 offset-5 text-center my-4">커뮤니티</h1>
       <community-menu/>
 
       <transition name="slide-fade" mode="out-in">

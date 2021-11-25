@@ -1,59 +1,123 @@
 <template>
   <section>
-    <p>게시판 분류: {{ article.category ==='FREE' ? '자유' : '추천' }} </p>
-    <h1>타이틀: {{ article.title }} </h1>
-    <p> {{article.content}} </p>
-    <img v-if="article.image" :src="`http://127.0.0.1:8000${article.image}`" alt="이미지">
-    <p>작성시간: {{ article.created_at }}  </p>
-    <p>수정시간: {{ article.updated_at }}  </p>
-    <p>작성자: {{ article.user }}  </p>
-    <button @click="likeArticle" v-if="isLogin && !likeStatus ">추천</button>
-    <button @click="disLikeArticle" v-else-if="isLogin && likeStatus">추천 취소</button> 
-    <span> {{ recommendUsers }} 명이 이 글을 추천합니다. </span>
-    <br>
-    <button 
-    v-if="createdByMeForArticle"
-    @click="updateArticle" 
-    >
-    수정
-    </button>
-    <button v-if="createdByMeForArticle" @click="deleteArticle">삭제</button>
-
-    <article>
-      <h2>댓글 목록</h2>
-      <div v-for="comment in comments" :key="comment.id">
-        <p>작성자: {{comment.user }} </p>
-        <span> 작성 시간: {{ comment.created_at }} </span>
-        <p>
-          댓글: {{ comment.content }} 
-          <button  v-if="!!createdCommentsByMe.find(myComment=>{
-            return myComment.id === comment.id
-            })" 
-          class="d-inline" @click="deleteComment(comment)"> 댓글 삭제 </button>
-        </p>
+    <div class="my-bg m-2 p-4 rounded">
+      <div class="d-flex justify-content-between">
+        <h1>{{ article.title }}</h1>
+        <div>
+          <button 
+            v-if="createdByMeForArticle"
+            @click="updateArticle" 
+            class="btn btn-link"
+          >
+          <i class="fas fa-edit"></i>
+          </button>
+          <button v-if="createdByMeForArticle" @click="deleteArticle" class="btn btn-link"><i class="fas fa-trash-alt text-danger"></i></button>
+        </div>
       </div>
-      <form @submit="createComment">
-        <input type="text" v-model="commentContent">
-        <button>댓글 작성</button>
-      </form>
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="mb-0 pb-0">작성자: {{ article.user }}  </p>
+        <p class="mb-0 pb-0">{{ article.category ==='FREE' ? '자유' : '추천' }} 게시판</p>
+      </div>
+      <hr>
+      <div class="d-flex flex-column align-items-center">
+        <img v-if="article.image" :src="`http://127.0.0.1:8000${article.image}`" class="mb-2" alt="이미지">
+      </div>
+      <p class="mb-5"> {{article.content}} </p>
+      <hr>
+      <div class="d-flex flex-column align-items-end my-font-1">
+        <p class="mb-1">작성시간: {{ article.created_at }}  </p>
+        <p>수정시간: {{ article.updated_at }}  </p>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-center my-4">
+        <button @click="likeArticle" v-if="isLogin && !likeStatus" class="btn text-primary"><i class="far fa-thumbs-up"></i></button>
+        <button @click="disLikeArticle" v-else-if="isLogin && likeStatus" class="btn text-primary"><i class="fas fa-thumbs-up"></i></button> 
+        <span> {{ recommendUsers }} 명이 이 글을 추천합니다. </span>
+      </div>
+    </div>
+
+    <article class="my-bg m-2 p-4 rounded">
+      <h2>댓글</h2>
+      <div v-if="!comments.length" style="background-color: rgb(34, 40, 49);" class="py-3 ps-2 rounded">아직 댓글이 없어요...</div>
+      <div v-for="comment in comments" :key="comment.id" class="my-repl p-2 my-1 rounded">
+        <div class="d-flex justify-content-between">
+          <strong class="pb-0 my-auto">{{comment.user }}</strong>
+          <button
+            v-if="!!createdCommentsByMe.find(myComment=>{
+              return myComment.id === comment.id
+            })" 
+            class="d-inline btn btn-link"
+            @click="deleteComment(comment)"
+          >
+          <i class="fas fa-trash-alt text-danger"></i>
+          </button>
+        </div>
+        <hr class="mt-1">
+        <div class="d-flex justify-content-between">
+          <p>{{ comment.content }}</p>
+          <span class="my-font-1"> 작성 시간: {{ comment.created_at }} </span>
+        </div>
+      </div>
     </article>
+    <div class="my-bg m-2 p-4 rounded">
+      <h2>댓글 작성</h2>
+      <form v-if="isLogin" @submit="createComment">
+        <b-form-textarea
+          id="textarea"
+          rows="3"
+          v-model="commentContent"
+          style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);"
+        >
+        </b-form-textarea>
+        <button class="mt-2 btn" style="background-color: rgb(111, 74, 142); color: white;">작성</button>
+      </form>
+      <form v-if="!isLogin" @submit="showModal">
+        <b-form-textarea
+          id="textarea"
+          rows="3"
+          v-model="commentContent"
+          style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);"
+        >
+        </b-form-textarea>
+        <button class="mt-2 btn" style="background-color: rgb(111, 74, 142); color: white;">로그인</button>
+      </form>
+      <login-modal v-if="!hideModal"></login-modal>
+    </div>
+    
   </section>
 </template>
 
 <script>
 import {timeMark} from '@/utils/datetime'
-
+import LoginModal from '@/components/accounts/LoginModal'
 
 export default {
   name: 'CommunityArticle',
   data(){
     return({
       commentContent: '',
-      recommendUsers : this.$store.state.article.recommend_users.length
+      recommendUsers : this.$store.state.article.recommend_users.length,
+      hideModal: true,
     })
   },
 
+  components:{
+    LoginModal
+  },
+
   methods:{
+    showModal(event){
+      event.preventDefault()
+      this.$modal.show(LoginModal, 
+        {prpos: null}, 
+        { name: 'LoginModal',
+          draggable: true,
+          width: '500px',
+          height: 'auto',
+          scrollable: true
+        }
+      )
+    },
+
     updateArticle(){
       this.$router.push({name: 'CommunityUpdate', query:{articleId: this.$route.query.articleId} })
     },
@@ -137,6 +201,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.my-bg {
+  background-color: rgb(39, 46, 56);
+}
 
+.my-repl {
+  background-color: rgb(34, 40, 49);
+}
+
+.my-font-1 {
+  font-size: 2px;
+  color: rgb(190, 190, 190);
+}
 </style>

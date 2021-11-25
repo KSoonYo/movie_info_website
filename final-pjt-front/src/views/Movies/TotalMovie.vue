@@ -39,7 +39,7 @@ export default {
           "autoplay": true,
           "draggable": false,
           // "focusOnSelect": true,
-          "centerMode": true,
+          // "centerMode": true,
           "edgeFriction": 0.35,
           "infinite": true,
           "speed": 500,

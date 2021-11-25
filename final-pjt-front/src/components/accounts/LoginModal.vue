@@ -17,7 +17,7 @@
         <span v-if="passwordAlertStatus" class="error-message"> 비밀번호를 입력해주세요 </span>
         <br>
         <button class="btn btn-primary">로그인</button>
-        <div class="d-flex my-3 justify-content-between align-items-center">
+        <div class="d-flex mt-3 mb-5 justify-content-between align-items-center">
           <span>아직 계정이 없으신가요?</span>
           <button @click="toSignUp" class="btn mt-0 btn-link">회원 가입</button>
         </div>

@@ -1,39 +1,70 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <h1 class="text-center mt-5">회원가입</h1>
     <section class="p-3 container rounded mt-3">
       <!-- form 스타일링 필요 -->
-      <div class="col-4 offset-4">
-        <form @submit="createUser" class="my-form p-2 col-12 rounded">
+      <div class="col-4 offset-4 my-form mt-5 px-3 rounded">
+        <h1 class="text-center pt-4">회원가입</h1>
+        <form @submit="createUser" class="p-2 col-12 rounded">
       
-        <div class="row my-1 mx-2">
-          <label for="username" class="p-0"> 아이디 </label>
-          <b-form-input class="p-0 px-2" v-model="username" id="username" type="text" required></b-form-input>
+        <div class="row mt-1 mb-4 mx-2">
+          <label for="username" class="px-0 mb-1"> 아이디 </label>
+          <b-form-input
+            class="px-2"
+            v-model="username"
+            id="username"
+            type="text"
+            required
+            style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"
+          >
+          </b-form-input>
           <p v-if="multipleUserNameError">
             <span class="text-danger"> {{ multipleUserNameError }} </span>
           </p>
           <span class="text-danger" v-if="usernameAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
         
-        <div class="row my-1 mx-2">
-          <label for="nickname" class="p-0"> 닉네임 </label>
-          <b-form-input class="p-0 px-2" v-model="nickname" id="nickname" type="text" required></b-form-input>
+        <div class="row mt-1 mb-4 mx-2">
+          <label for="nickname" class="px-0 mb-1"> 닉네임 </label>
+          <b-form-input
+            class="px-2"
+            v-model="nickname"
+            id="nickname"
+            type="text"
+            required
+            style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"
+          >
+          </b-form-input>
           <p v-if="multipleNickNameError">
             <span class="text-danger"> {{ multipleNickNameError }}  </span>
           </p>
           <span class="text-danger" v-if="nicknameAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
 
-        <div class="row my-1 mx-2">
-          <label for="password" class="p-0"> 비밀번호 </label>
-          <b-form-input class="p-0 px-2" v-model="password" id="password" type="password" required></b-form-input>
+        <div class="row mt-1 mb-4 mx-2">
+          <label for="password" class="px-0 mb-1"> 비밀번호 </label>
+          <b-form-input
+            class="px-2"
+            v-model="password"
+            id="password"
+            type="password"
+            required
+            style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"
+          >
+          </b-form-input>
           <span v-if="passwordAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
 
-        <div class="row my-1 mx-2">
-          <label for="passwordConfrimation" class="p-0"> 비밀번호 확인 </label>
-          <b-form-input v-model="passwordConfirmation" class="p-0 px-2" id="passwordConfirmation" type="password" required>
+        <div class="row mt-1 mb-4 mx-2">
+          <label for="passwordConfrimation" class="px-0 mb-1"> 비밀번호 확인 </label>
+          <b-form-input
+            v-model="passwordConfirmation"
+            class="px-2"
+            id="passwordConfirmation"
+            type="password"
+            required
+            style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"
+          >
           </b-form-input>
           <p v-if="invalidPasswordConfirm">
             <span> {{ invalidPasswordConfirm }}  </span>
@@ -41,11 +72,9 @@
           <span v-if="passwordConfirmAlertStatus"> 입력칸을 채워주세요 </span>
         </div>
   
-       <div class="row my-3 mx-2 ">
-        <div class="d-flex justify-content-end px-0">
-          <button class="btn my-button">sign up</button>
+        <div class="row mt-6 mb-4 mx-2 ">
+            <button class="btn btn-primary">sign up</button>
         </div>
-       </div>
       </form>
     </div>
       
@@ -141,6 +170,9 @@ export default {
 .my-button{
   background-color: rgb(111, 74, 142);
   color: white;
+}
 
+.mt-6 {
+  margin-top: 2.3rem;
 }
 </style>
