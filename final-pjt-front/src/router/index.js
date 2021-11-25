@@ -178,7 +178,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'Index' || to.name === 'Login' || to.name === 'Signup') {
     if (accessToken) {
       // console.log('이동되었습니다.')
-      next({ name: 'NowPlay' })
+      next({ name: 'TotalMovie' })
     }
   } else if(to.name === 'CommunityCreate' || to.name === 'Profile'){
     if(!accessToken){
