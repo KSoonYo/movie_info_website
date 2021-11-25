@@ -1,53 +1,64 @@
 <template>
 <div>
   <nav-bar></nav-bar>
-  <section class="d-flex flex-column align-items-center container">
-    <div class="row w-100">
+  <section class="d-flex flex-column align-items-center container mt-5">
+    <!-- <div class="row w-100">
       <button class="offset-11 col-1 btn mt-5 mb-2" @click="$router.push({name: 'Popular'}).catch(()=>{})" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
-      <!-- <button class="offset-11 col-1 btn mt-5 mb-2" @click="back" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button> -->
-    </div>
+      <button class="offset-11 col-1 btn mt-5 mb-2" @click="back" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
+    </div> -->
     <article class="row">
-      <iframe :src="movie.trailer_path" frameborder="0" class="col-12 mb-5" style="width: 100vw; height: 40vw;"></iframe>
       <img class="col-4" :src="movie.poster_path" alt="영화포스터" style="height: 30vw;">
       <div class="col-8">
-        <h2>제목: {{ movie.title}} </h2>
-        <h3>원제: {{ movie.original_title || movie.title }} </h3>
+        <h2>{{ movie.title}} </h2>
+        <h3>{{ movie.original_title || movie.title }} </h3>
         <span v-for="(genre, index) in genres" :key="index"> {{genre}} </span>
         <p class="mt-3"> 상영시간: {{movie.runtime}}분 </p>
         <p> 영화 평점: {{movie.vote_average}} </p>
-        <span> {{ likeUsers }} 명이 이 영화를 좋아합니다. </span>
-        <button @click="pressLikeButton" v-if="isLogin && !likeStatus" class="btn text-primary"><i class="far fa-thumbs-up"></i></button> 
-        <button @click="pressDislikeButton" v-else-if="isLogin && likeStatus" class="btn text-primary"><i class="fas fa-thumbs-up"></i></button>
         <p class="mt-3">{{ movie.overview }} </p>
       </div>
       <!-- <iframe :src="videoURL" frameborder="0"></iframe> -->
 
     </article>
 
+    <div class="d-flex flex-column align-items-center my-5">
+      <button @click="pressLikeButton" v-if="isLogin && !likeStatus" class="btn text-primary"><i class="far fa-thumbs-up"></i></button> 
+      <button @click="pressDislikeButton" v-else-if="isLogin && likeStatus" class="btn text-primary"><i class="fas fa-thumbs-up"></i></button>
+      <span> {{ likeUsers }} 명이 이 영화를 좋아합니다. </span>
+    </div>
+
+    <div class="container px-0">
+      <h2>예고편</h2>
+      <div class="row">
+        <iframe :src="movie.trailer_path" frameborder="0" class="col-12 mb-5" style="width: 100vw; height: 40vw;"></iframe>
+      </div>
+    </div>
+
     <!-- 리뷰 -->
-    <article class="w-100 mt-5 mx-0 px-0">
+    <article class="w-100 mx-0 my-4 p-4 my-bg rounded">
       <h2>리뷰</h2>
       <div class="px-0 container">
-
-
-          <table class="text-white mx-0 pb-2 container">
-            <tbody  v-if="reviews.length" class="px-0">
-              <tr v-for="review in reviews" :key="review.id">
-                <td class="col-1 ps-3">{{ review.user }}</td>
-                <td class="col-1">{{ review.rank === 1 ? '★☆☆☆☆' : review.rank === 2 ? '★★☆☆☆' : review.rank === 3 ? '★★★☆☆' : review.rank === 4 ? '★★★★☆' : '★★★★★' }}</td>
-                <td class="col-8 ps-5">{{ review.content }}</td>
-                <td class="col-1">{{ review.created_at }}</td>
-                <button v-if="!!createdRevieswByMe.find(myReview=>{
-                    return myReview.id === review.id
-                  })" @click="deleteReview(review.id)" > 삭제 </button>
-              </tr>
-            </tbody>
-            <tbody v-else>
-              <td>
-                아직 리뷰가 없습니다.
-              </td>
-            </tbody>
-          </table>
+        <div v-if="!reviews.length" style="background-color: rgb(34, 40, 49);" class="py-3 ps-2 rounded">아직 리뷰가 없어요...</div>
+        <div v-for="review in reviews" :key="review.id" class="my-repl p-2 my-1 rounded">
+          <div class="d-flex justify-content-between">
+            <strong class="pb-0 my-auto">{{ review.user }}</strong>
+            <button v-if="!!createdRevieswByMe.find(myReview=>{
+                return myReview.id === review.id
+              })"
+              class="btn btn-link"
+              @click="deleteReview(review.id)"
+            >
+            <i class="fas fa-trash-alt text-danger"></i>
+            </button>
+          </div>
+          <hr class="mt-1">
+          <div class="d-flex justify-content-between">
+            <p>{{ review.content }}</p>
+            <div>
+              <span>{{ review.rank === 1 ? '★☆☆☆☆' : review.rank === 2 ? '★★☆☆☆' : review.rank === 3 ? '★★★☆☆' : review.rank === 4 ? '★★★★☆' : '★★★★★' }}</span>
+              <span class="my-font-1 ms-5"> 작성 시간: {{ review.created_at }} </span>
+            </div>
+          </div>
+        </div>
       </div>
    
 
@@ -82,12 +93,12 @@
         <h3 class="px-0">추천 영화 목록</h3>
       </div>
       <div class="container px-0">
-        <div v-if="recommendMovies.length" class="d-flex justify-content-between">
-          <img @click="getRecommendMovie(recommendMovie.id)" class="movie-poster col-2 px-0" :src="recommendMovie.poster_path" alt="" v-for="recommendMovie in recommendMovies" :key="recommendMovie.id">
+        <div v-if="recommendMovies.length" class="row mx-0" :class="{'d-flex justify-content-between': recommendMovies.length === 5}">
+          <img @click="getRecommendMovie(recommendMovie.id)" class="movie-poster col-2 px-0" :class="{'ms-5': idx > 0}" :src="recommendMovie.poster_path" alt="" v-for="(recommendMovie, idx) in recommendMovies" :key="recommendMovie.id">
         </div>
         <div class="my-5" v-else>
           <p>
-            {{recommendMovies.message }}
+            {{ recommendMovies.message }}
           </p>
         </div>
       </div>
@@ -236,13 +247,33 @@ export default {
 </script>
 
 <style scoped>
-  table {
-    border-radius: 0.5rem;
-    background-color: rgb(34, 40, 49);
-  }
+/* table {
+  border-radius: 0.5rem;
+  background-color: rgb(34, 40, 49);
+}
 
-  tbody {
-    cursor: default;
-  }
+tbody {
+  cursor: default;
+}
 
+tbody:hover {
+  background-color: rgb(34, 40, 49);
+} */
+
+.movie-poster:hover {
+    cursor: pointer;
+}
+
+.my-bg {
+  background-color: rgb(39, 46, 56);
+}
+
+.my-repl {
+  background-color: rgb(34, 40, 49);
+}
+
+.my-font-1 {
+  font-size: 2px;
+  color: rgb(190, 190, 190);
+}
 </style>
