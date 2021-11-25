@@ -183,13 +183,16 @@ export default {
 <style>
 .logo{
   cursor: pointer;
+  font-size: 12px !important;
   text-align: center;
   border: 0.2rem solid #fff; 
   border-radius: 2rem; padding: 0.4em; 
   box-shadow: 0 0 .2rem #fff, 0 0 .2rem #fff, 0 0 2rem #4e3957, 0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
 }
 
-
+div > .navbar {
+  padding: 0;
+}
 
 .logo-text{
   text-shadow: 0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px rgb(231, 44, 200),
