@@ -1,5 +1,5 @@
 <template>
-  <section class="overflow-auto d-flex flex-column align-items-center row">
+  <section class="overflow-auto d-flex flex-column align-items-center row mx-0">
       <b-table id="my-table" fixed hover 
         :items="items" 
         :fields="fields"
@@ -151,6 +151,11 @@ tbody > tr:hover{
 .my-bg {
   background-color: rgb(39, 46, 56);
 }
+
+/* tr:hover {
+  background-color: rgb(39, 46, 56) !important;
+  color: white !important;
+} */
 
 
 

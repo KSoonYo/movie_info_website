@@ -1,10 +1,7 @@
 <template>
-  <div>
+  <div class="mb-5">
     <nav-bar></nav-bar>
-    <section class="d-flex flex-column align-items-center container">
-      <div class="row w-100">
-        <button class="offset-11 col-1 btn mt-3 mb-2" style="background-color: rgb(111, 74, 142); color: white;" @click="$router.go(-1)">뒤로가기</button>
-      </div>
+    <section class="d-flex flex-column align-items-center container mt-5">
       <article class="row">
         <img class="col-4" :src="nowPlay.poster_path" alt="영화포스터">
         <div class="col-8">

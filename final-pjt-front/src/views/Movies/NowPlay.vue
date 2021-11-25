@@ -2,8 +2,8 @@
   <div>
     <b-container fluid class="p-4 container">
       <b-row class="row">
-        <b-col class="col-3 d-flex flex-column align-items-center" @click="getNowMovie(nowMovie.id)" v-for="nowMovie in nowMovies" :key="nowMovie.id">
-          <b-img style="height: 15vw;" class="pointer" thumbnail fluid :src="nowMovie.poster_path" alt="Image 1"></b-img>
+        <b-col class="col-3 d-flex flex-column align-items-center" v-for="nowMovie in nowMovies" :key="nowMovie.id">
+          <b-img @click="getNowMovie(nowMovie.id)" style="height: 15vw;" class="pointer" thumbnail fluid :src="nowMovie.poster_path" alt="Image 1"></b-img>
           <p class="mb-5">{{ nowMovie.title }}</p>
         </b-col>
       </b-row>

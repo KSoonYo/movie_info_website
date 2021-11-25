@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="my-bg m-2 p-4 rounded">
+    <div class="my-bg mx-2 mb-4 mt-5 p-4 rounded">
       <div class="d-flex justify-content-between">
         <h1>{{ article.title }}</h1>
         <div>
@@ -35,12 +35,12 @@
       </div>
     </div>
 
-    <article class="my-bg m-2 p-4 rounded">
+    <article class="my-bg mx-2 my-4 p-4 rounded">
       <h2>댓글</h2>
       <div v-if="!comments.length" style="background-color: rgb(34, 40, 49);" class="py-3 ps-2 rounded">아직 댓글이 없어요...</div>
       <div v-for="comment in comments" :key="comment.id" class="my-repl p-2 my-1 rounded">
         <div class="d-flex justify-content-between">
-          <strong class="pb-0 my-auto">{{comment.user }}</strong>
+          <strong class="pb-0 my-auto">{{ comment.user }}</strong>
           <button
             v-if="!!createdCommentsByMe.find(myComment=>{
               return myComment.id === comment.id
@@ -48,7 +48,7 @@
             class="d-inline btn btn-link"
             @click="deleteComment(comment)"
           >
-          <i class="fas fa-trash-alt text-danger"></i>
+            <i class="fas fa-trash-alt text-danger"></i>
           </button>
         </div>
         <hr class="mt-1">
@@ -58,7 +58,7 @@
         </div>
       </div>
     </article>
-    <div class="my-bg m-2 p-4 rounded">
+    <div class="my-bg mx-2 mt-4 mb-5 p-4 rounded">
       <h2>댓글 작성</h2>
       <form v-if="isLogin" @submit="createComment">
         <b-form-textarea

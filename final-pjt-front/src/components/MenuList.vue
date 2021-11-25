@@ -1,8 +1,8 @@
 <template>
-  <div class="menu-list d-flex justify-content-around">
-    <span class="navigation p-2 rounded" @click="toMovies"> Movies </span>
-    <span class="navigation p-2 rounded" @click="toCommunity"> Community </span>
-    <span class="navigation p-2 rounded" @click="showModal"> Login </span>
+  <div class="menu-list d-flex justify-content-around px-0">
+    <span class="navigation p-2 mx-4 rounded" @click="toMovies"> Movies </span>
+    <span class="navigation p-2 mx-4 rounded" @click="toCommunity"> Community </span>
+    <span class="navigation p-2 mx-4 rounded" @click="showModal"> Login </span>
     
     <login-modal v-if="!hideModal"></login-modal>
     

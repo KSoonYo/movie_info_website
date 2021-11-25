@@ -2,14 +2,18 @@
 
   <div class="container">
     <nav id="community-menu">
-      <div class="d-flex justify-content-center">
-        <router-link class="border px-3 text-decoration-none text-white rounded-start"
-         :class="{bss: allCommunity}"
-         :to="{name: 'AllCommunity'}">전체 게시판 </router-link>
-        <router-link class="border px-3 text-decoration-none text-white" 
+      <div class="d-flex justify-content-center mt-5 mb-3 row">
+        <router-link
+          class="border px-3 p-2 col text-decoration-none text-white rounded-start text-center"
+          :class="{bss: allCommunity}"
+          :to="{name: 'AllCommunity'}"
+        >
+        전체 게시판
+        </router-link>
+        <router-link class="border px-3 py-2 col text-decoration-none text-white text-center" 
         :class="{bss: freeCommunity}"
         :to="{name: 'FreeCommunity'}">자유 게시판 </router-link>
-        <router-link class="border px-3 text-decoration-none text-white rounded-end" 
+        <router-link class="border px-3 py-2 col text-decoration-none text-white rounded-end text-center" 
         :class="{bss: recommendCommunity}"
         :to="{name: 'RecommendCommunity'}">추천 게시판 </router-link>
       </div>
