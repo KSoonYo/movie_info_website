@@ -4,31 +4,53 @@
       <div class="row my-1 mx-2">
         <div class="col-12">분류</div>
         <div>
-          <select name="category" id="category-options" class="pe-2 py-1" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);">
+          <select name="category" id="category-options" class="pe-2 py-1" style="background-color: rgb(34, 40, 49); color: white; border-color: rgb(34, 40, 49);">
             <option value="FREE" >자유</option>
             <option value="RECOMMEND" :selected="categoryStatus==='recommend'">추천</option>
           </select>
         </div>
       </div>
-      <div class="row my-1 mx-2">
+      <div class="row md-1 mt-3 mx-2">
         <label for="title" class="col-12"> 제목 </label>
         <div>
-          <b-form-input id="title" v-model="title" type="text" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-input>
+          <b-form-input
+            id="title"
+            v-model="title"
+            type="text"
+            style="
+              background-color: rgb(34, 40, 49);
+              color: white;
+              border-color: rgb(34, 40, 49);
+            "
+          >
+          </b-form-input>
         </div>
       </div>
-      <div class="row my-1 mx-2">
+      <div class="row md-1 mt-3 mx-2">
         <label for="content" class="col-12"> 내용 </label>
         <div>
-          <b-form-textarea name="content" id="content" cols="100" rows="5" v-model="content" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-textarea>
+          <b-form-textarea
+          name="content"
+          id="content"
+          cols="100"
+          rows="5"
+          v-model="content"
+          style="
+            background-color: rgb(34, 40, 49);
+            color: white;
+            border-color: rgb(34, 40, 49);
+          "
+          >
+          </b-form-textarea>
         </div>
       </div>
-      <div class="row my-1 mx-2">
-        <label for="image-upload" class="col-12"> 이미지</label>
+      <div class="row md-1 mt-3 mx-2">
+        <label for="image-upload" class="col-12">이미지</label>
         <div>
           <input class="col-11 ps-0" @change="onInputImage" ref="articleImage" type="file">
         </div>
       </div>
-      <div class="row my-3 mx-2">
+      <div class="row md-3 mt-4 mx-2">
         <div>
           <button class="btn my-button"> 작성 </button>
         </div>
@@ -82,7 +104,7 @@ export default {
 }
 
 .my-form{
-  background-color: rgb(45, 45, 45);
+  background-color: rgb(39, 46, 56);
 }
 
 .my-button {

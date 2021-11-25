@@ -46,9 +46,9 @@
           </b-navbar-nav>
         <!-- </div> -->
 
-          <b-navbar-nav class="d-none d-lg-block col-lg-1">
+          <b-navbar-nav v-if="isLogin" class="d-none d-lg-block col-lg-1">
             <b-nav-item>
-              <img v-if="isLogin" v-b-toggle.sidebar-right src="../assets/logo.png" width="50px" height="30px" alt="">
+              <img v-b-toggle.sidebar-right src="../assets/logo.png" width="50px" height="30px" alt="">
             </b-nav-item>
           </b-navbar-nav>
       </b-collapse>
@@ -75,7 +75,7 @@
           </p>
       
         </div>
-    </b-sidebar>
+      </b-sidebar>
     </b-navbar>
 
   </div>
