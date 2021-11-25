@@ -26,7 +26,7 @@ export default {
   overflow: auto;
 
   /* background: linear-gradient(to right, rgba(9, 8, 10, 0.795) 0%, rgba(19, 17, 15, 0.959) 80%, rgb(22, 21, 21) 100%); */
-  background: rgb(7, 6, 6);
+  background: rgb(15, 15, 15);
   color: rgb(238, 238, 238);
 }
 

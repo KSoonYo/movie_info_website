@@ -532,7 +532,7 @@ export default new Vuex.Store({
     getArticles({commit}){
       axios.get('/articles/')
         .then(res=>{
-          commit('SET_ARTICLES', res.data.results)
+          commit('SET_ARTICLES', res.data)
         })
     },
   
