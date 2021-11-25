@@ -40,8 +40,8 @@ a{
 }
 
 .bss {
-  background-color: white;
   color: black !important;
+  background-color: white;
 }
 
 </style>

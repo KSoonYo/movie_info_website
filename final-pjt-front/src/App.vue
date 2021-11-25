@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" class="pb-3">
   <vue-scroll :ops="ops"> 
       <transition name="fade" mode="out-in">
           <router-view></router-view>

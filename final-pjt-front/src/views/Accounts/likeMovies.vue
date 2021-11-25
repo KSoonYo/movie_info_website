@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <b-container class="pt-4 pb-0 container">
-      <b-row class="row">
+  <div class="px-4">
+    <b-container class="pt-4 pb-0">
+      <b-row>
         <b-col class="col-3 d-flex flex-column align-items-center" v-for="likeMovie in likeMovies"
         :key="likeMovie.id">
-          <b-img style="height: 15vw;" thumbnail :src="likeMovie.poster_path" alt="Poster" class="pointer" @click="getMovie(likeMovie.id)"></b-img>
+          <b-img style="height: 20vw;" thumbnail :src="likeMovie.poster_path" alt="Poster" class="pointer" @click="getMovie(likeMovie.id)"></b-img>
           <p class="mb-5">{{ likeMovie.title }}</p>
         </b-col>
       </b-row>
