@@ -138,8 +138,9 @@ export default {
     search(event){
       event.preventDefault()
 
-      const nextTo = this.$route.name
+      const nextTo = this.$route.name // 현재 위치 컴포넌트
 
+      // 검색 필터링 적용
       this.$store.commit('SET_SEARCH_KEY', this.searchContent)
       nextTo === 'Popular' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :
       nextTo === 'TotalMovie' ? this.$store.dispatch('setPopularMovies', {pageNum: 0, searchKeyWord: this.$store.state.searchKeyWord}) :

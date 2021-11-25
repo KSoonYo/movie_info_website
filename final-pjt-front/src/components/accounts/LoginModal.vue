@@ -5,7 +5,7 @@
       <h1 class="mx-5 mt-5 mb-4 text-center">Login</h1>
       <!-- 부트스트랩 login form 사용 예정 -->
       <form @submit="toLogin" class="mx-5 d-flex flex-column">
-        <p v-if="invalidationStatus">로그인 실패실패</p>
+        <p v-if="invalidationStatus" class="text-danger">회원 정보가 일치하지 않습니다.</p>
         <div>
           <b-form-input :class="{'invalid-alert': usernameAlertStatus}" type="text" id="username" v-model="username" placeholder="아이디" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-input>
         </div>

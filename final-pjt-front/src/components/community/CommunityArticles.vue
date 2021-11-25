@@ -170,7 +170,7 @@ tbody > tr:hover{
 }
 
 .pagination .page-link {
-        color: white;
+        color: black;
 }
 
 .pagination .page-item.active .page-link {

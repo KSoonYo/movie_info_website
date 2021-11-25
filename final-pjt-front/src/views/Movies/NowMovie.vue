@@ -3,8 +3,7 @@
     <nav-bar></nav-bar>
     <section class="d-flex flex-column align-items-center container">
       <div class="row w-100">
-        <h1 class="col-7 offset-5">영화 상세 페이지</h1>
-        <button class="offset-11 col-1" @click="$router.go(-1)">뒤로가기</button>
+        <button class="offset-11 col-1 btn mt-3 mb-2" style="background-color: rgb(111, 74, 142); color: white;" @click="$router.go(-1)">뒤로가기</button>
       </div>
       <article class="row">
         <img class="col-4" :src="nowPlay.poster_path" alt="영화포스터">

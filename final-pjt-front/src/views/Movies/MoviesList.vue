@@ -10,6 +10,7 @@
         <button @click="toPopular" class="col-1 offset-2  rounded"
         :class="[{'bg-dark': isPopular}, {'text-white': isPopular}]"
         > 인기 </button> -->
+
         <router-view></router-view>
       </div>
     </section>
@@ -58,8 +59,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 
 
 </style>

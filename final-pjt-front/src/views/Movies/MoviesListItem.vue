@@ -4,6 +4,7 @@
   <section class="d-flex flex-column align-items-center container">
     <div class="row w-100">
       <button class="offset-11 col-1 btn mt-5 mb-2" @click="$router.push({name: 'Popular'}).catch(()=>{})" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button>
+      <!-- <button class="offset-11 col-1 btn mt-5 mb-2" @click="back" style="background-color: rgb(111, 74, 142); color: white;">뒤로가기</button> -->
     </div>
     <article class="row">
       <iframe :src="movie.trailer_path" frameborder="0" class="col-12 mb-5" style="width: 100vw; height: 40vw;"></iframe>
@@ -213,8 +214,13 @@ export default {
 
     getRecommendMovie(movieId){
       this.$store.dispatch('getMovie', movieId)
-   
-    }
+    },
+
+    // back(){
+    //   const nowMovieId = this.movie.id
+    //   this.$store.dispatch('toBack', nowMovieId)
+
+    // }
 
   },
 

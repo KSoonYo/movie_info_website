@@ -10,11 +10,16 @@ import 'vue-js-modal/dist/styles.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+// vue-scroll
+import vuescroll from 'vuescroll';
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VModal, { dynamic: true })
+Vue.use(vuescroll);
+
 
 new Vue({
   router,

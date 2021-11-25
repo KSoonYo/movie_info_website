@@ -15,12 +15,14 @@
         <div>
           <b-form-input id="title" v-model="title" type="text" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-input>
         </div>
+        <span v-if="titleAlert" class="text-danger"> 제목을 입력해주세요. </span>
       </div>
       <div class="row my-1 mx-2">
         <label for="content" class="col-12"> 내용 </label>
         <div>
           <b-form-textarea name="content" id="content" cols="100" rows="5" v-model="content" style="background-color: rgb(65, 65, 65); color: white; border-color: rgb(65, 65, 65);"></b-form-textarea>
         </div>
+        <span v-if="contentAlert" class="text-danger"> 내용을 입력해주세요. </span>
       </div>
       <div class="row my-1 mx-2">
         <label for="image-upload" class="col-12"> 이미지</label>
@@ -49,12 +51,33 @@ export default {
       content: '',
       category: '',
       image: '',
+
+      titleAlert : false,
+      contentAlert : false
     }
   },
 
   methods: {
     createArticle(event){      
       event.preventDefault()
+
+      // 작성 유효성 검사
+      if(!this.title.trim()){
+        this.titleAlert = true
+      } else {
+        this.titleAlert = false
+      }
+
+      if(!this.content.trim()){
+        this.contentAlert = true 
+      } else {
+        this.contentAlert = false
+      }
+
+      if(this.titleAlert || this.contentAlert){
+        return
+      }
+
       const payload = new FormData()
       payload.append('title', this.title)
       payload.append('content', this.content)
