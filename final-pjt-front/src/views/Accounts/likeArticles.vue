@@ -1,23 +1,26 @@
 <template>
-  <section class="container w-100 ">
-    <div class="row px-2 justify-content-around">
-      <article class="my-bg mx-3 col-3 mt-3 rounded" v-for="(article, index) in likeArticles" :key="index">
-      <div class="d-flex my-5 justify-content-center">
-        <h1>{{ article.title }}</h1>
-      </div>
-      <div >
-        <div>
-          <p class="mb-1">작성시간: {{ article.created_at }}  </p>
-          <p>수정시간: {{ article.updated_at }}  </p>
+  <section class="px-0">
+    <div class="row px-0 mx-0">
+      <article class="d-flex flex-column align-items-between col-3 mt-2 px-0" v-for="(article, index) in likeArticles" :key="index">
+        <div class="col-12 mb-5">
+          <div class="my-bg h-100 mx-4 mb-5 rounded">
+            <div class="d-flex mt-3 mb-4 justify-content-center">
+              <h1 class="mt-5">{{ article.title }}</h1>
+            </div>
+            <div>
+              <p class="mb-1">작성시간: {{ article.created_at }}  </p>
+              <p>수정시간: {{ article.updated_at }}</p>
+            </div>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
     </div>
   </section>
 </template>
 
 <script>
 
+import {timeMark} from '@/utils/datetime'
 
 export default {
   name: 'likeArticles',
@@ -34,8 +37,10 @@ export default {
       return this.$store.state.likeArticles.map(likeArticle=>{
         return {
           ...likeArticle,
-          created_at : likeArticle.created_at,
-          updated_at : likeArticle.updated_at
+
+          created_at : timeMark(likeArticle.created_at),
+          updated_at : timeMark(likeArticle.updated_at)
+
         }
       })
     },

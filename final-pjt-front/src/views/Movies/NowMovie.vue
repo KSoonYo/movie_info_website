@@ -5,8 +5,8 @@
       <article class="row">
         <img class="col-4" :src="nowPlay.poster_path" alt="영화포스터">
         <div class="col-8">
-          <h2>제목: {{ nowPlay.title}} </h2>
-          <h3>원제: {{ nowPlay.original_title || nowPlay.title }} </h3>
+          <h2>{{ nowPlay.title}} </h2>
+          <h3>{{ nowPlay.original_title || nowPlay.title }} </h3>
           <span v-for="(genre, index) in genres" :key="index"> {{genre}} </span>
           <!-- <p class="mt-3"> 상영시간: {{nowPlay.runtime}}분 </p> -->
           <p> 영화 평점: {{nowPlay.vote_average}} </p>

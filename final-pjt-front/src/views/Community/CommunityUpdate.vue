@@ -108,7 +108,7 @@ export default {
 }
 
 .my-button {
-  background-color: rgb(111, 74, 142);
-  color: white;
+  background-color: rgb(111, 74, 142) !important;
+  color: white !important;
 }
 </style>

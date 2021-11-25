@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <section class="container text-center">
+    <section class="container text-center mt-4">
       <h1> 개인 프로필 </h1>
       <profile-menu></profile-menu>
 

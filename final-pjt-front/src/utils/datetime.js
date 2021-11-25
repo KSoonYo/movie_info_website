@@ -1,10 +1,12 @@
 const timeMark = createdAt => {
   const moment = require('moment')
-  createdAt = moment(createdAt)
-  if (moment().diff(createdAt) > 259200000) {
-    return createdAt.format('YYYY-MM-DD')
+  const newCreatedAt = moment(createdAt)
+  if (createdAt.length < 20) {
+    return createdAt
+  } else if (moment().diff(newCreatedAt) > 259200000) {
+    return newCreatedAt.format('YYYY-MM-DD')
   } else {
-    return moment(createdAt, 'YYYY.MM.DD.HH.mm.SS').locale('ko').fromNow()
+    return moment(newCreatedAt, 'YYYY.MM.DD.HH.mm.SS').locale('ko').fromNow()
   }
 }
 
