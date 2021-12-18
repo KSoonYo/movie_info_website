@@ -57,9 +57,7 @@
 
 
 
-![img](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fd9db3ddd-6908-4215-9096-222d26e30c6d%2FUntitled.png?id=362f4428-c2da-400b-a74b-560714e9cb25&table=block&spaceId=daa2d103-3ecd-4519-8c30-4f55e74c7ef4&width=2000&userId=86e559c7-fe4c-42c1-8aee-79b63fc6792b&cache=v2)
-
-
+![image-20211219011314408](README-front.assets/image-20211219011314408.png)
 
 ### NavBar 컴포넌트
 
@@ -77,15 +75,13 @@
 
 
 
-![img](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6cd1d3e1-9b07-4f72-a3a6-61ba8638576c%2FUntitled.png?table=block&id=b640c081-dc4c-4f14-9c11-89c1c5ffe963&spaceId=daa2d103-3ecd-4519-8c30-4f55e74c7ef4&width=1880&userId=86e559c7-fe4c-42c1-8aee-79b63fc6792b&cache=v2)
-
-
+![image-20211219011303915](README-front.assets/image-20211219011303915.png)
 
 ### $router.push 와 event 에러 디버깅(NavBar 에러)
 
 - NavBar에서 클릭 시 현재 경로와 동일한 경로로 이동하는 component를 누를 경우, 다음과 같은 콘솔 에러 발생('/community/에 있는데 community 탭을 누른 경우)
 
-  ![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fce942f59-dc1a-4ac1-b595-b89077b78989%2FUntitled.png)
+  ![image-20211219011355119](README-front.assets/image-20211219011355119.png)
 
   - 에러가 난 부분의 코드는 다음과 같다.
 
@@ -103,7 +99,7 @@
 
     가 있다.  나는 logo부분과 Movies는 router-link로 바꿔보았고, community 부분은 catch를 걸어주었다.
 
-    ![img](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fad79db04-581d-4b7f-a77c-4bc3899ce0c0%2FUntitled.png?table=block&id=43c99c1f-1364-4c7d-9b1b-aa0a5b5fec9e&spaceId=daa2d103-3ecd-4519-8c30-4f55e74c7ef4&width=1040&userId=86e559c7-fe4c-42c1-8aee-79b63fc6792b&cache=v2)
+    ![image-20211219011325614](README-front.assets/image-20211219011325614.png)
 
     에러는 해결 되었으나 router-link로 바꿔 준 부분이 디저인, 코드 모든 측면에서 별로였다. 그냥 모두 catch를 걸어주기로 했다.
 
@@ -244,7 +240,7 @@
 - 게시글의 id를 동적 라우팅 매칭으로 받아서 해당 id로 상세 글 페이지의 내용물을 출력할 수 있게 구성했다.
 - 댓글 목록 또한 게시글의 id로 API get요청을 하여 받아올 예정!
 
-![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F341f4085-4b0e-4755-8deb-625bbe916dc1%2FUntitled.png)
+![image-20211219011411538](README-front.assets/image-20211219011411538.png)
 
 ### 위 화면에서 배경색 잘림 방지
 
@@ -252,7 +248,7 @@
 - 원인은 댓글 container부분이 최상위 컴포넌트 app의 높이 범위를 벗어난 것!
 - app에 overflow속성을 auto로 지정해주면 해결된다.(html, body 태그에 너비, 높이 설정을 100%로 해줘야 app 컴포넌트 너비, 높이를 100%으로 해줬을 때 스타일이 적용된다.)
 
-![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F805cd2b7-e3a6-41fa-bab8-87df329eeb08%2FUntitled.png)
+![image-20211219011418472](README-front.assets/image-20211219011418472.png)
 
 
 
@@ -264,7 +260,7 @@
 
 [Usage | Vue.js Modal](https://euvl.github.io/vue-js-modal/Usage.html#configuration)
 
-![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fdc8b8b34-0f60-4451-8aa1-7df2c16c1231%2FUntitled.png)
+![image-20211219011426693](README-front.assets/image-20211219011426693.png)
 
 - 기본적으로 사용방법이 크게 어렵진 않았다.
 - static 모달로 사용하는 방법도 있었지만, 로그인 모달 컴포넌트를 만들어서 동적으로 모달을 구현했다.
@@ -417,7 +413,7 @@ export default {
 - 로그인을 안 했으면 ⇒ 로그인 버튼이 있고, 리뷰 댓글 게시글 작성이 제한된다.
 - 권한이 없는 사용자가 글 작성 버튼을 누를 시 아래와 같이 모달창이 나온다.
 
-![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F0778ed48-f6e4-466e-86a4-9e4036794ab3%2FUntitled.png)
+![image-20211219011453860](README-front.assets/image-20211219011453860.png)
 
 - 네비게이션 가드 동작 중에 next로 현재 url 페이지로 리다릭트 하도록 구성을 했다가 Uncaught 에러가 console창에 살벌하게 찍혔다.
   - 같은 주소로 next 보내서 그런가 싶어 이리저리 시도한 끝에
@@ -437,7 +433,7 @@ export default {
 Uncaught (in promise) Error: Redirected from "{url A}" to "{url C}" via a navigation guard.
 ```
 
-![img](README-front.assets/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F629c68ae-e801-47d5-8cdf-f8275bdc6a49%2FUntitled.png)
+![image-20211219011501482](README-front.assets/image-20211219011501482.png)
 
 참고: https://vuejscode.com/vue-router-—-uncaught-in-promise-error-redirected-from-login-to-via-a-navigation-guard
 
@@ -821,7 +817,7 @@ data(){
 
 
 
-  ![img](README-front.assets/YQO0KRYP1HGK3FhXx7ZO81Q7xT9Wdxp-dmndUbBjBxGvQhT3iDPtZYk9FC-G4mqohY2H3SJPCPEDVuasn9ZHAfqUp6WeRGUAQPWe34SHKsJ5hwKpwaILh5-ke8xjUKQsoZukSmXz9wE)
+![image-20211219011544445](README-front.assets/image-20211219011544445.png)
 
 - index 페이지
   - 사용자가 방문 목적에 따라 곧바로 들어갈 수 있도록 버튼 구성
@@ -837,7 +833,7 @@ data(){
 
 
 
-![img](README-front.assets/EfJbwz8eReURhlTHBnZQXifWR-QWI6LTSaS8dCoZdcNxTr-sZoRwLvO1f5WHUSa6hrr3llxGRptnYK2AeSCMYoVaVCSVTBy1OZeWVK3zejnbCvUA_EIwe5uNuUZZOuFYvHTQZzNsVpI)
+![image-20211219011553472](README-front.assets/image-20211219011553472.png)
 
 - 영화 전체 목록 페이지
   - 현재 상영 중 영화와 인기 영화 캐로셀을 동시에 보여줌
@@ -845,7 +841,7 @@ data(){
 
 
 
-![img](https://lh3.googleusercontent.com/VVq7RHQYjL5oEgtV6jNsOMF3yhVysU5i2-3nI1hlDqfiQ__YMHZCjEEraOk503uGRxGFJ-tflejj5X1R2wz_hQ25pyrXbMtniRAmgIG8cozZBXI6I-pf10RtLkY4zX6cyaRPTzpLpGs)
+![image-20211219011603928](README-front.assets/image-20211219011603928.png)
 
 - `스파이더맨` 검색 시 출력되는 결과
   - 제목에 검색한 키워드가 있으면 모두 필터링
