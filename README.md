@@ -1,7 +1,5 @@
 # final_proejct
 
-> SSAFY 1학기 최종 관통 프로젝트
-
 
 
 ## 프로젝트 구조
